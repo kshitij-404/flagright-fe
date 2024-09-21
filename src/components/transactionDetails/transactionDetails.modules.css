@@ -1,0 +1,13 @@
+.mantine-Drawer-title {
+    font-size: 20px;
+    font-weight: 600;
+    padding: 10px 15px 5px 15px;
+}
+
+.mantine-Drawer-body {
+    padding: 5px 30px 5px 30px;
+}
+
+.mantine-Drawer-content {
+    border-radius: 15px;
+}
