@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { IconSortAscending, IconSortDescending } from '@tabler/icons-react';
 import useSWR from 'swr';
 import {
@@ -15,16 +15,28 @@ import {
   Tooltip,
 } from '@mantine/core';
 import { BASE_URL } from '@/utils/constants';
-import { TransactionDetailsDrawer } from '../transactionDetails/transactionDetails';
+import { TransactionDetailsDrawer } from '../TransactionDetails/TransactionDetails';
 
-export function TransactionInventory() {
+interface TransactionInventoryProps {
+  filters: any;
+}
+
+export function TransactionInventory({ filters }: TransactionInventoryProps) {
   const [page, setPage] = useState(1);
   const [sortBy, setSortBy] = useState('timestamp');
   const [sortOrder, setSortOrder] = useState('asc');
   const [selectedTransactionId, setSelectedTransactionId] = useState<string | null>(null);
 
+  useEffect(() => {
+    setPage(1);
+  }, [filters]);
+
+  const filteredFilters = Object.fromEntries(
+    Object.entries(filters).filter(([_, value]) => value !== undefined && value !== null)
+  );
+
   const { data, error } = useSWR(
-    `${BASE_URL}/transaction?page=${page}&sortBy=${sortBy}&sortOrder=${sortOrder}`,
+    `${BASE_URL}/transaction?page=${page}&sortBy=${sortBy}&sortOrder=${sortOrder}&${new URLSearchParams(filteredFilters as any).toString()}`,
     (url) => fetch(url).then((res) => res.json())
   );
 
@@ -41,7 +53,11 @@ export function TransactionInventory() {
   };
 
   const rows = data.transactions.map((transaction: any) => (
-    <Table.Tr key={transaction._id} onClick={() => setSelectedTransactionId(transaction.transactionId)} style={{ cursor: 'pointer' }}>
+    <Table.Tr
+      key={transaction._id}
+      onClick={() => setSelectedTransactionId(transaction.transactionId)}
+      style={{ cursor: 'pointer' }}
+    >
       <Table.Td style={{ textAlign: 'center' }}>
         <Badge variant="light" color="blue" size="lg">
           {transaction.type}
@@ -69,10 +85,8 @@ export function TransactionInventory() {
       </Table.Td>
       <Table.Td>
         <div style={{ textAlign: 'center' }}>
-          <Text size="sm">
-            {dayjs(transaction.timestamp).format('MMM D, YYYY')}
-          </Text>
-          <Text c="dimmed" style={{fontSize: "12px"}}>
+          <Text size="sm">{dayjs(transaction.timestamp).format('MMM D, YYYY')}</Text>
+          <Text c="dimmed" style={{ fontSize: '12px' }}>
             {`at ${dayjs(transaction.timestamp).format('h:mm A')}`}
           </Text>
         </div>
@@ -82,7 +96,7 @@ export function TransactionInventory() {
       <Table.Td style={{ textAlign: 'center' }}>
         <Badge variant="light" color="blue" size="lg">
           {transaction.transactionState}
-        </Badge> 
+        </Badge>
       </Table.Td>
       <Table.Td style={{ textAlign: 'center' }}>
         <NumberFormatter
@@ -132,7 +146,14 @@ export function TransactionInventory() {
             <Table.Tr>
               <Table.Th style={{ textAlign: 'center' }}>
                 Type
-                <ActionIcon variant="subtle" color='black' onClick={() => handleSort('type')} ml={4} mr={4} style={{transform: "translate(0px, 2px)"}}>
+                <ActionIcon
+                  variant="subtle"
+                  color="black"
+                  onClick={() => handleSort('type')}
+                  ml={4}
+                  mr={4}
+                  style={{ transform: 'translate(0px, 2px)' }}
+                >
                   {sortBy === 'type' && sortOrder === 'asc' ? (
                     <IconSortAscending size={16} />
                   ) : (
@@ -142,7 +163,14 @@ export function TransactionInventory() {
               </Table.Th>
               <Table.Th style={{ textAlign: 'center' }}>
                 Txn ID
-                <ActionIcon variant="subtle" color='black'  onClick={() => handleSort('transactionId')} ml={4} mr={4} style={{transform: "translate(0px, 2px)"}}>
+                <ActionIcon
+                  variant="subtle"
+                  color="black"
+                  onClick={() => handleSort('transactionId')}
+                  ml={4}
+                  mr={4}
+                  style={{ transform: 'translate(0px, 2px)' }}
+                >
                   {sortBy === 'transactionId' && sortOrder === 'asc' ? (
                     <IconSortAscending size={16} />
                   ) : (
@@ -152,7 +180,14 @@ export function TransactionInventory() {
               </Table.Th>
               <Table.Th style={{ textAlign: 'center' }}>
                 Time
-                <ActionIcon variant="subtle" color='black'  onClick={() => handleSort('timestamp')} ml={4} mr={4} style={{transform: "translate(0px, 2px)"}}>
+                <ActionIcon
+                  variant="subtle"
+                  color="black"
+                  onClick={() => handleSort('timestamp')}
+                  ml={4}
+                  mr={4}
+                  style={{ transform: 'translate(0px, 2px)' }}
+                >
                   {sortBy === 'timestamp' && sortOrder === 'asc' ? (
                     <IconSortAscending size={16} />
                   ) : (
@@ -162,7 +197,14 @@ export function TransactionInventory() {
               </Table.Th>
               <Table.Th style={{ textAlign: 'center' }}>
                 Sender ID
-                <ActionIcon variant="subtle" color='black'  onClick={() => handleSort('originUserId')} ml={4} mr={4} style={{transform: "translate(0px, 2px)"}}>
+                <ActionIcon
+                  variant="subtle"
+                  color="black"
+                  onClick={() => handleSort('originUserId')}
+                  ml={4}
+                  mr={4}
+                  style={{ transform: 'translate(0px, 2px)' }}
+                >
                   {sortBy === 'originUserId' && sortOrder === 'asc' ? (
                     <IconSortAscending size={16} />
                   ) : (
@@ -172,7 +214,14 @@ export function TransactionInventory() {
               </Table.Th>
               <Table.Th style={{ textAlign: 'center' }}>
                 Receiver ID
-                <ActionIcon variant="subtle" color='black'  onClick={() => handleSort('destinationUserId')} ml={4} mr={4} style={{transform: "translate(0px, 2px)"}}>
+                <ActionIcon
+                  variant="subtle"
+                  color="black"
+                  onClick={() => handleSort('destinationUserId')}
+                  ml={4}
+                  mr={4}
+                  style={{ transform: 'translate(0px, 2px)' }}
+                >
                   {sortBy === 'destinationUserId' && sortOrder === 'asc' ? (
                     <IconSortAscending size={16} />
                   ) : (
@@ -182,7 +231,14 @@ export function TransactionInventory() {
               </Table.Th>
               <Table.Th style={{ textAlign: 'center' }}>
                 State
-                <ActionIcon variant="subtle" color='black'  onClick={() => handleSort('transactionState')} ml={4} mr={4} style={{transform: "translate(0px, 2px)"}}>
+                <ActionIcon
+                  variant="subtle"
+                  color="black"
+                  onClick={() => handleSort('transactionState')}
+                  ml={4}
+                  mr={4}
+                  style={{ transform: 'translate(0px, 2px)' }}
+                >
                   {sortBy === 'transactionState' && sortOrder === 'asc' ? (
                     <IconSortAscending size={16} />
                   ) : (
@@ -192,7 +248,14 @@ export function TransactionInventory() {
               </Table.Th>
               <Table.Th style={{ textAlign: 'center' }}>
                 Amount
-                <ActionIcon variant="subtle" color='black'  onClick={() => handleSort('originAmountDetails.transactionAmount')} ml={4} mr={4} style={{transform: "translate(0px, 2px)"}}>
+                <ActionIcon
+                  variant="subtle"
+                  color="black"
+                  onClick={() => handleSort('originAmountDetails.transactionAmount')}
+                  ml={4}
+                  mr={4}
+                  style={{ transform: 'translate(0px, 2px)' }}
+                >
                   {sortBy === 'originAmountDetails.transactionAmount' && sortOrder === 'asc' ? (
                     <IconSortAscending size={16} />
                   ) : (
@@ -202,7 +265,14 @@ export function TransactionInventory() {
               </Table.Th>
               <Table.Th style={{ textAlign: 'center' }}>
                 Tags
-                <ActionIcon variant="subtle" color='black'  onClick={() => handleSort('tags')} ml={4} mr={4} style={{transform: "translate(0px, 2px)"}}>
+                <ActionIcon
+                  variant="subtle"
+                  color="black"
+                  onClick={() => handleSort('tags')}
+                  ml={4}
+                  mr={4}
+                  style={{ transform: 'translate(0px, 2px)' }}
+                >
                   {sortBy === 'tags' && sortOrder === 'asc' ? (
                     <IconSortAscending size={16} />
                   ) : (
@@ -224,7 +294,10 @@ export function TransactionInventory() {
           radius="xl"
         />
       </Flex>
-      <TransactionDetailsDrawer transactionId={selectedTransactionId} onClose={() => setSelectedTransactionId(null)} />
+      <TransactionDetailsDrawer
+        transactionId={selectedTransactionId}
+        onClose={() => setSelectedTransactionId(null)}
+      />
     </div>
   );
 }

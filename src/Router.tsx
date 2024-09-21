@@ -1,10 +1,10 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { TransactionInventory } from './components/TransactionInventory/TransactionInventory';
+import { Dashboard } from './pages/Dashboard.page';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <TransactionInventory />,
+    element: <Dashboard />,
   },
 ]);
 

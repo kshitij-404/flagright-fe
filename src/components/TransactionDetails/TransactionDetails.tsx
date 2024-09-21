@@ -1,6 +1,5 @@
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
-import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 import {
   Badge,
   CopyButton,
@@ -10,7 +9,6 @@ import {
   Group,
   NumberFormatter,
   SimpleGrid,
-  Stack,
   Tabs,
   Text,
   Tooltip,
@@ -18,7 +16,7 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { BASE_URL } from '@/utils/constants';
 
-import './transactionDetails.modules.css';
+import './TransactionDetails.modules.css';
 
 interface TransactionDetailsDrawerProps {
   transactionId: string | null;
