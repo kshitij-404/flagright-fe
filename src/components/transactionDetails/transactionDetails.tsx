@@ -1,5 +1,6 @@
+import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
-import { IconCopy } from '@tabler/icons-react';
+import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 import {
   Badge,
   CopyButton,
@@ -10,6 +11,7 @@ import {
   NumberFormatter,
   SimpleGrid,
   Stack,
+  Tabs,
   Text,
   Tooltip,
 } from '@mantine/core';
@@ -41,6 +43,93 @@ export function TransactionDetailsDrawer({
       close();
     }
   }, [transactionId]);
+
+  const renderDeviceDetails = (deviceData: any) => (
+    <SimpleGrid cols={2} spacing="sm">
+      {deviceData.batteryLevel !== undefined && (
+        <>
+          <Text c="dimmed">Battery Level:</Text>
+          <Text>{deviceData.batteryLevel}%</Text>
+        </>
+      )}
+      {deviceData.deviceLatitude !== undefined && (
+        <>
+          <Text c="dimmed">Latitude:</Text>
+          <Text>{deviceData.deviceLatitude}</Text>
+        </>
+      )}
+      {deviceData.deviceLongitude !== undefined && (
+        <>
+          <Text c="dimmed">Longitude:</Text>
+          <Text>{deviceData.deviceLongitude}</Text>
+        </>
+      )}
+      {deviceData.ipAddress && (
+        <>
+          <Text c="dimmed">IP Address:</Text>
+          <Text>{deviceData.ipAddress}</Text>
+        </>
+      )}
+      {deviceData.deviceIdentifier && (
+        <>
+          <Text c="dimmed">Device Identifier:</Text>
+          <Text>{deviceData.deviceIdentifier}</Text>
+        </>
+      )}
+      {deviceData.vpnUsed !== undefined && (
+        <>
+          <Text c="dimmed">VPN Used:</Text>
+          <Text>{deviceData.vpnUsed ? 'Yes' : 'No'}</Text>
+        </>
+      )}
+      {deviceData.operatingSystem && (
+        <>
+          <Text c="dimmed">Operating System:</Text>
+          <Text>{deviceData.operatingSystem}</Text>
+        </>
+      )}
+      {deviceData.deviceMaker && (
+        <>
+          <Text c="dimmed">Device Maker:</Text>
+          <Text>{deviceData.deviceMaker}</Text>
+        </>
+      )}
+      {deviceData.deviceModel && (
+        <>
+          <Text c="dimmed">Device Model:</Text>
+          <Text>{deviceData.deviceModel}</Text>
+        </>
+      )}
+      {deviceData.deviceYear && (
+        <>
+          <Text c="dimmed">Device Year:</Text>
+          <Text>{deviceData.deviceYear}</Text>
+        </>
+      )}
+      {deviceData.appVersion && (
+        <>
+          <Text c="dimmed">App Version:</Text>
+          <Text>{deviceData.appVersion}</Text>
+        </>
+      )}
+      {/* {deviceData.deviceLatitude !== undefined && deviceData.deviceLongitude !== undefined && (
+        <MapContainer
+          center={[deviceData.deviceLatitude, deviceData.deviceLongitude]}
+          zoom={13}
+          style={{ height: '200px', width: '100%' }}
+        >
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <Marker position={[deviceData.deviceLatitude, deviceData.deviceLongitude]}>
+            <Popup>
+              {deviceData.deviceLatitude}, {deviceData.deviceLongitude}
+            </Popup>
+          </Marker>
+        </MapContainer>
+      )} */}
+    </SimpleGrid>
+  );
 
   return (
     <Drawer
@@ -108,27 +197,67 @@ export function TransactionDetailsDrawer({
             </Badge>
           </Group>
           <Divider my="sm" />
-          <SimpleGrid cols={2} spacing="sm">
-            <Text c="dimmed">Description:</Text>
-            <Text>{transaction.description}</Text>
-            <Text c="dimmed">Date:</Text>
-            <Text>{new Date(transaction.timestamp).toLocaleString()}</Text>
-            <Text c="dimmed">Promotion Code Used:</Text>
-            <Text>{transaction.promotionCodeUsed ? 'Yes' : 'No'}</Text>
-            <Text c="dimmed">Reference:</Text>
-            <Text>{transaction.reference}</Text>
-            <Text c="dimmed">Origin Country:</Text>
-            <Text>{transaction.originAmountDetails.country}</Text>
-            <Text c="dimmed">Destination Country:</Text>
-            <Text>{transaction.destinationAmountDetails.country}</Text>
-          </SimpleGrid>
-          <Group mt="md">
-            {transaction.tags.map((tag: any) => (
-              <Badge key={tag._id} color="green">
-                {`${tag.key}: ${tag.value}`}
-              </Badge>
-            ))}
-          </Group>
+          <Tabs variant="outline" defaultValue="details">
+            <Tabs.List>
+              <Tabs.Tab value="details">Details</Tabs.Tab>
+              <Tabs.Tab value="originDevice">Origin Device</Tabs.Tab>
+              <Tabs.Tab value="destinationDevice">Destination Device</Tabs.Tab>
+            </Tabs.List>
+            <Tabs.Panel value="details" pt="xs">
+              <Text>Description:</Text>
+              <Text
+                c="dimmed"
+                mt={12}
+                mb={12}
+                style={{ border: '1px solid #eaeaea', padding: '14px', borderRadius: '20px' }}
+              >
+                {transaction.description}
+              </Text>
+              <Group mt="md" mb="md">
+                {transaction.tags.map((tag: any) => (
+                  <Badge key={tag._id} color="green">
+                    {`${tag.key}: ${tag.value}`}
+                  </Badge>
+                ))}
+              </Group>
+              <SimpleGrid cols={2} spacing="sm">
+                <Text c="dimmed">Time:</Text>
+                <Text
+                  style={{ textAlign: 'right' }}
+                >{`${dayjs(transaction.timestamp).format('MMM D, YYYY')} at ${dayjs(transaction.timestamp).format('h:mm A')}`}</Text>
+                <Text c="dimmed">Promotion Code Used:</Text>
+                <Text style={{ textAlign: 'right' }}>
+                  {transaction.promotionCodeUsed ? 'Yes' : 'No'}
+                </Text>
+                <Text c="dimmed">Reference:</Text>
+                <Text style={{ textAlign: 'right' }}>{transaction.reference}</Text>
+                <Text c="dimmed">Origin Amount:</Text>
+                <Text style={{ textAlign: 'right' }}>
+                  <NumberFormatter
+                    value={transaction.originAmountDetails.transactionAmount}
+                    thousandSeparator
+                    decimalScale={2}
+                    prefix={`${transaction.originAmountDetails.transactionCurrency} `}
+                  />
+                </Text>
+                <Text c="dimmed">Destination Amount:</Text>
+                <Text style={{ textAlign: 'right' }}>
+                  <NumberFormatter
+                    value={transaction.destinationAmountDetails.transactionAmount}
+                    thousandSeparator
+                    decimalScale={2}
+                    prefix={`${transaction.destinationAmountDetails.transactionCurrency} `}
+                  />
+                </Text>
+              </SimpleGrid>
+            </Tabs.Panel>
+            <Tabs.Panel value="originDevice" pt="xs">
+              {renderDeviceDetails(transaction.originDeviceData)}
+            </Tabs.Panel>
+            <Tabs.Panel value="destinationDevice" pt="xs">
+              {renderDeviceDetails(transaction.destinationDeviceData)}
+            </Tabs.Panel>
+          </Tabs>
         </div>
       ) : (
         <Text>Loading...</Text>
