@@ -12,10 +12,10 @@ export function Dashboard() {
 
   return (
     <Grid>
-      <Grid.Col span={3}>
+      <Grid.Col span={2.5}>
         <FilterMenu onApplyFilters={handleApplyFilters} />
       </Grid.Col>
-      <Grid.Col span={9}>
+      <Grid.Col span={9.5}>
         <TransactionInventory filters={filters} />
       </Grid.Col>
     </Grid>
