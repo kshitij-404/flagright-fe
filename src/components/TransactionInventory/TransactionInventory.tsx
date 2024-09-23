@@ -134,7 +134,6 @@ export function TransactionInventory({ filters }: TransactionInventoryProps) {
           mah={636}
           bgcolor="#ffffff"
           mb={26}
-          mt={27}
           style={{
             borderRadius: 22,
             fontSize: 14,
