@@ -57,69 +57,78 @@ export function TransactionInventory({ filters, searchTerm }: TransactionInvento
     }
   };
 
-  const rows = data.transactions.map((transaction: any) => (
-    <Table.Tr
-      key={transaction._id}
-      onClick={() => setSelectedTransactionId(transaction.transactionId)}
-      style={{ cursor: 'pointer' }}
-    >
-      <Table.Td style={{ textAlign: 'center' }}>
-        <Badge variant="light" color="blue" size="lg">
-          {transaction.type}
-        </Badge>
-      </Table.Td>
-      <Table.Td style={{ textAlign: 'center' }}>
-        <CopyButton value={transaction.transactionId} timeout={1000}>
-          {({ copied, copy }) => (
-            <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow position="right">
-              <Badge
-                color={copied ? 'teal' : 'transparent'}
-                variant="filled"
-                onClick={copy}
-                style={{
-                  cursor: 'pointer',
-                  border: copied ? 'none' : '1px solid gray',
-                  color: copied ? 'white' : 'black',
-                }}
-              >
-                {transaction.transactionId}
+  const rows =
+    data.transactions && data.transactions.length > 0 ? (
+      data.transactions?.map((transaction: any) => (
+        <Table.Tr
+          key={transaction._id}
+          onClick={() => setSelectedTransactionId(transaction.transactionId)}
+          style={{ cursor: 'pointer' }}
+        >
+          <Table.Td style={{ textAlign: 'center' }}>
+            <Badge variant="light" color="blue" size="lg">
+              {transaction.type}
+            </Badge>
+          </Table.Td>
+          <Table.Td style={{ textAlign: 'center' }}>
+            <CopyButton value={transaction.transactionId} timeout={1000}>
+              {({ copied, copy }) => (
+                <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow position="right">
+                  <Badge
+                    color={copied ? 'teal' : 'transparent'}
+                    variant="filled"
+                    onClick={copy}
+                    style={{
+                      cursor: 'pointer',
+                      border: copied ? 'none' : '1px solid gray',
+                      color: copied ? 'white' : 'black',
+                    }}
+                  >
+                    {transaction.transactionId}
+                  </Badge>
+                </Tooltip>
+              )}
+            </CopyButton>
+          </Table.Td>
+          <Table.Td>
+            <div style={{ textAlign: 'center' }}>
+              <Text size="sm">{dayjs(transaction.timestamp).format('MMM D, YYYY')}</Text>
+              <Text c="dimmed" style={{ fontSize: '12px' }}>
+                {`at ${dayjs(transaction.timestamp).format('h:mm A')}`}
+              </Text>
+            </div>
+          </Table.Td>
+          <Table.Td style={{ textAlign: 'center' }}>{transaction.originUserId}</Table.Td>
+          <Table.Td style={{ textAlign: 'center' }}>{transaction.destinationUserId}</Table.Td>
+          <Table.Td style={{ textAlign: 'center' }}>
+            <Badge variant="light" color="blue" size="lg">
+              {transaction.transactionState}
+            </Badge>
+          </Table.Td>
+          <Table.Td style={{ textAlign: 'center' }}>
+            <NumberFormatter
+              value={transaction.originAmountDetails.transactionAmount}
+              thousandSeparator
+              decimalScale={2}
+              prefix={`${transaction.originAmountDetails.transactionCurrency} `}
+            />
+          </Table.Td>
+          <Table.Td style={{ textAlign: 'center' }}>
+            {transaction.tags.map((tag: any) => (
+              <Badge variant="light" key={tag._id} color="green" size="sm" mr="xs">
+                {`${tag.key}`}
               </Badge>
-            </Tooltip>
-          )}
-        </CopyButton>
-      </Table.Td>
-      <Table.Td>
-        <div style={{ textAlign: 'center' }}>
-          <Text size="sm">{dayjs(transaction.timestamp).format('MMM D, YYYY')}</Text>
-          <Text c="dimmed" style={{ fontSize: '12px' }}>
-            {`at ${dayjs(transaction.timestamp).format('h:mm A')}`}
-          </Text>
-        </div>
-      </Table.Td>
-      <Table.Td style={{ textAlign: 'center' }}>{transaction.originUserId}</Table.Td>
-      <Table.Td style={{ textAlign: 'center' }}>{transaction.destinationUserId}</Table.Td>
-      <Table.Td style={{ textAlign: 'center' }}>
-        <Badge variant="light" color="blue" size="lg">
-          {transaction.transactionState}
-        </Badge>
-      </Table.Td>
-      <Table.Td style={{ textAlign: 'center' }}>
-        <NumberFormatter
-          value={transaction.originAmountDetails.transactionAmount}
-          thousandSeparator
-          decimalScale={2}
-          prefix={`${transaction.originAmountDetails.transactionCurrency} `}
-        />
-      </Table.Td>
-      <Table.Td style={{ textAlign: 'center' }}>
-        {transaction.tags.map((tag: any) => (
-          <Badge variant="light" key={tag._id} color="green" size="sm" mr="xs">
-            {`${tag.key}`}
-          </Badge>
-        ))}
-      </Table.Td>
-    </Table.Tr>
-  ));
+            ))}
+          </Table.Td>
+        </Table.Tr>
+      ))
+    ) : (
+      <Table.Tr>
+        <Table.Td colSpan={8} style={{ textAlign: 'center' }} c="dimmed">
+          No transactions found
+        </Table.Td>
+      </Table.Tr>
+    );
 
   return (
     <div>
@@ -128,8 +137,13 @@ export function TransactionInventory({ filters, searchTerm }: TransactionInvento
         align="center"
         style={{
           marginBottom: '60px',
+          borderBottomLeftRadius: 22,
+          borderBottomRightRadius: 22,
         }}
+        bg="blue.5"
         direction="column"
+        p={4}
+        pt={0}
       >
         <Table
           className="transaction-inventory"
@@ -138,12 +152,14 @@ export function TransactionInventory({ filters, searchTerm }: TransactionInvento
           highlightOnHover
           mah={636}
           bgcolor="#ffffff"
-          mb={26}
           style={{
-            borderRadius: 22,
+            borderRadius: 18,
+            overflow: 'hidden',
+            // borderTopLeftRadius: 0,
+            // borderTopRightRadius: 0,
             fontSize: 14,
-            maxWidth: '1200px',
-            margin: '0 auto',
+            // maxWidth: '1200px',
+            // margin: '0 auto',
           }}
         >
           <Table.Thead>
@@ -289,12 +305,12 @@ export function TransactionInventory({ filters, searchTerm }: TransactionInvento
           <Table.Tbody>{rows}</Table.Tbody>
         </Table>
       </Flex>
-      <Flex justify="center" align="center" mt="md">
+      <Flex justify="center" align="center">
         <Pagination
-          total={data.metadata.totalPages}
+          total={data.metadata?.totalPages}
           value={page}
           onChange={setPage}
-          size="lg"
+          size="md"
           radius="xl"
         />
       </Flex>

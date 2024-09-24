@@ -32,7 +32,8 @@ export function Dashboard() {
         p={32}
         pt={40}
         mx="auto"
-        maw="min(calc(100vw - 19rem), 75rem)"
+        w="100%"
+        maw="min(calc(100vw - 18.5rem), 75rem)"
         direction="column"
         gap={24}
       >
@@ -52,11 +53,13 @@ export function Dashboard() {
           <TransactionMeta />
         </Box>
 
-        <Flex direction="column" gap={20}>
+        <Flex direction="column" gap={0}>
           <Flex align="center" justify="center">
             <ToolkitBar onSearch={handleSearch} filters={filters}/>
           </Flex>
-          <TransactionInventory filters={filters} searchTerm={searchTerm} />
+          <Box>
+            <TransactionInventory filters={filters} searchTerm={searchTerm} />
+          </Box>
         </Flex>
       </Flex>
     </Box>

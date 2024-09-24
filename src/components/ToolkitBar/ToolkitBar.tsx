@@ -1,5 +1,11 @@
-import { Button, Flex, TextInput } from '@mantine/core';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import {
+  IconFileTypeCsv,
+  IconReport,
+  IconSearch,
+  IconTransactionDollar,
+} from '@tabler/icons-react';
+import { ActionIcon, Button, Flex, TextInput, useMantineTheme } from '@mantine/core';
 import { BASE_URL } from '@/utils/constants';
 
 interface ToolkitBarProps {
@@ -17,6 +23,8 @@ export function ToolkitBar({ onSearch, filters }: ToolkitBarProps) {
       setIsGeneratorRunning(JSON.parse(generatorStatus));
     }
   }, []);
+  const theme = useMantineTheme();
+  const colors = theme.colors;
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
@@ -115,27 +123,79 @@ export function ToolkitBar({ onSearch, filters }: ToolkitBarProps) {
   };
 
   return (
-    <Flex align="center" justify="space-between" style={{ width: '1200px' }}>
-      <TextInput
-        placeholder="Search..."
-        radius="xl"
-        value={searchQuery}
-        onChange={handleSearchChange}
-        onKeyPress={handleKeyPress}
-        style={{ width: '50%' }}
-      />
-      <Button color="blue" radius="xl" onClick={handleSearch}>
-        Search
-      </Button>
-      <Button color="blue" radius="xl" onClick={downloadPDF}>
-        Generate Report
-      </Button>
-      <Button color="blue" radius="xl" onClick={downloadCSV}>
-        Download CSV
-      </Button>
-      <Button color="blue" radius="xl" onClick={toggleTransactionGenerator}>
-        {isGeneratorRunning ? 'Stop' : 'Generate Transactions'}
-      </Button>
+    <Flex
+      align="center"
+      gap={20}
+      w="100%"
+      justify="space-between"
+      bg="blue.5"
+      p={8}
+      pr={12}
+      style={{
+        borderRadius: 22,
+        borderBottomLeftRadius: 0,
+        borderBottomRightRadius: 0,
+      }}
+    >
+      <Flex
+        gap={8}
+        component="form"
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSearch();
+        }}
+        align="center"
+      >
+        <TextInput
+          placeholder="Search..."
+          radius={14}
+          value={searchQuery}
+          onChange={handleSearchChange}
+          // onKeyPress={handleKeyPress}
+          w={300}
+          variant="filled"
+          styles={{
+            input: {
+              backgroundColor: colors.blue[7],
+              color: colors.blue[0],
+            },
+          }}
+        />
+        {/* <Button
+          color="blue"
+          radius="xl"
+          type="submit"
+          leftSection={<IconSearch size={16} stroke={2.5} />}
+          variant="gradient"
+        >
+          Search
+        </Button> */}
+        <ActionIcon variant="white" radius={14} type="submit" size={34}>
+          <IconSearch size={16} stroke={2} />
+        </ActionIcon>
+      </Flex>
+
+      <Flex gap={16}>
+        <Button size="compact-sm" color="blue.5" radius={14} leftSection={<IconReport size={16} />}>
+          Generate Report
+        </Button>
+        <Button
+          size="compact-sm"
+          color="blue.5"
+          radius={14}
+          leftSection={<IconTransactionDollar size={16} />}
+        >
+          Generate Transactions
+        </Button>
+        <Button
+          size="compact-sm"
+          color="blue.5"
+          radius={14}
+          leftSection={<IconFileTypeCsv size={16} />}
+        >
+          Download CSV
+        </Button>
+      </Flex>
     </Flex>
   );
 }

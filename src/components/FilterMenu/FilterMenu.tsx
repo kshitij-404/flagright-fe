@@ -112,7 +112,7 @@ export function FilterMenu({ onApplyFilters }: { onApplyFilters: (filters: any) 
           <Title order={3}>Filters</Title>
         </Flex>
 
-        <Flex direction="column" gap={20} w={250}>
+        <Flex direction="column" gap={20} w={240}>
           <Flex direction="column" gap={10}>
             <Text fw={500} size="sm" c="dark.4">
               Description
@@ -254,10 +254,12 @@ export function FilterMenu({ onApplyFilters }: { onApplyFilters: (filters: any) 
           </Flex>
         </Flex>
 
-        <Flex justify="space-between" mt="auto" gap={10}>
-          <Button onClick={handleApplyFilters}>Apply Filters</Button>
-          <Button variant="outline" onClick={handleClearFilters}>
-            Clear Filters
+        <Flex justify="space-between" mt="auto" gap={10} w="100%">
+          <Button w="100%" onClick={handleApplyFilters}>
+            Apply
+          </Button>
+          <Button w="100%" variant="outline" onClick={handleClearFilters}>
+            Clear
           </Button>
         </Flex>
       </Flex>
