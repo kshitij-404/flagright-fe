@@ -6,4 +6,5 @@ export const theme = createTheme({
   fontFamily: 'Onest, sans-serif',
   fontFamilyMonospace: 'Space Mono, monospace',
   headings: { fontFamily: 'Onest, sans-serif' },
+  defaultRadius:"md"
 });

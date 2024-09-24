@@ -11,7 +11,6 @@ import {
   Paper,
   Popover,
   RangeSlider,
-  Stack,
   Text,
   TextInput,
   Title,
@@ -100,116 +99,167 @@ export function FilterMenu({ onApplyFilters }: { onApplyFilters: (filters: any) 
   ];
 
   return (
-    <Paper p="md" radius="xs" h="100vh" style={{ backgroundColor: 'white', width: '100%', height: '100vh' }}>
-      <Flex direction="column" align="center">
-        <Flex align='flex-start' style={{width: '100%'}}>
-          <Title order={3} mb="md" mt={50} ml="40">
-            FILTERS
-          </Title>
+    <Paper
+      radius={0}
+      h="100vh"
+      bg="white"
+      // style={{ backgroundColor: 'white', width: '100%', height: '100vh' }}
+      // p={28}
+      // pt={40}
+    >
+      <Flex direction="column" align="center" p={28} pt={40} gap={28} h="100%">
+        <Flex align="flex-start" style={{ width: '100%' }}>
+          <Title order={3}>Filters</Title>
         </Flex>
-        <Stack p="md" style={{ width: 300 }}>
-          <Text mt="md" style={{ fontWeight: '600' }}>
-            Description
-          </Text>
-          <TextInput
-            value={description}
-            onChange={(event) => setDescription(event.currentTarget.value)}
-            placeholder="Enter description"
-          />
-          <Text mt="md" style={{ fontWeight: '600' }}>
-            Type
-          </Text>
-          <MultiSelect
-            value={types}
-            onChange={setTypes}
-            data={transactionTypes}
-            placeholder="Select types"
-          />
-          <Text mt="md" style={{ fontWeight: '600' }}>
-            State
-          </Text>
-          <MultiSelect
-            value={states}
-            onChange={setStates}
-            data={transactionStates}
-            placeholder="Select states"
-          />
-          <Text mt="md" style={{ fontWeight: '600' }}>
-            Tags
-          </Text>
-          <MultiSelect
-            value={tags}
-            onChange={setTags}
-            data={tagOptions?.map((tag: string) => ({ value: tag, label: tag })) || []}
-            placeholder="Select tags"
-          />
-          <Text mt="30" mb="lg" style={{ fontWeight: '600' }}>
-            Date
-          </Text>
-          <Group>
-            <Flex justify="space-between" style={{ width: '100%' }}>
-              <Text c="dimmed">Start</Text>
-              <Group>
-                <Text>{startDate ? startDate.toLocaleDateString() : 'Not selected'}</Text>
-                <Popover
-                  opened={startDatePickerOpened}
-                  onChange={setStartDatePickerOpened}
-                  position="bottom"
-                  withArrow
-                >
-                  <Popover.Target>
-                    <ActionIcon onClick={() => setStartDatePickerOpened((o) => !o)}>
-                      <IconCalendar size={16} />
-                    </ActionIcon>
-                  </Popover.Target>
-                  <Popover.Dropdown>
-                    <DatePicker value={startDate} onChange={setStartDate} />
-                  </Popover.Dropdown>
-                </Popover>
-              </Group>
-            </Flex>
-          </Group>
-          <Divider size="xs"></Divider>
-          <Group>
-            <Flex justify="space-between" style={{ width: '100%' }}>
-              <Text c="dimmed">End</Text>
-              <Group>
-                <Text>{endDate ? endDate.toLocaleDateString() : 'Not selected'}</Text>
-                <Popover
-                  opened={endDatePickerOpened}
-                  onChange={setEndDatePickerOpened}
-                  position="bottom"
-                  withArrow
-                >
-                  <Popover.Target>
-                    <ActionIcon onClick={() => setEndDatePickerOpened((o) => !o)}>
-                      <IconCalendar size={16} />
-                    </ActionIcon>
-                  </Popover.Target>
-                  <Popover.Dropdown>
-                    <DatePicker value={endDate} onChange={setEndDate} />
-                  </Popover.Dropdown>
-                </Popover>
-              </Group>
-            </Flex>
-          </Group>
-          <Text mt="30" mb="lg" style={{ fontWeight: '600' }}>
-            Price Range
-          </Text>
-          <RangeSlider
-            value={amountRange}
-            onChange={setAmountRange}
-            min={Math.round(amountRangeData?.minAmount || 0)}
-            max={Math.round(amountRangeData?.maxAmount || 1000)}
-            marks={sliderMarks}
-          />
-          <Flex justify='space-between'  mt="60">
-            <Button onClick={handleApplyFilters}>Apply Filters</Button>
-            <Button variant="outline" onClick={handleClearFilters}>
-              Clear Filters
-            </Button>
-          </Flex >
-        </Stack>
+
+        <Flex direction="column" gap={20} w={250}>
+          <Flex direction="column" gap={10}>
+            <Text fw={500} size="sm" c="dark.4">
+              Description
+            </Text>
+            <TextInput
+              value={description}
+              onChange={(event) => setDescription(event.currentTarget.value)}
+              placeholder="Enter description"
+              variant="filled"
+            />
+          </Flex>
+
+          <Flex direction="column" gap={10}>
+            <Text fw={500} size="sm" c="dark.4">
+              Type
+            </Text>
+            <MultiSelect
+              value={types}
+              onChange={setTypes}
+              data={transactionTypes}
+              placeholder="Select types"
+              variant="filled"
+            />
+          </Flex>
+
+          <Flex direction="column" gap={10}>
+            <Text fw={500} size="sm" c="dark.4">
+              State
+            </Text>
+            <MultiSelect
+              value={states}
+              onChange={setStates}
+              data={transactionStates}
+              placeholder="Select states"
+              variant="filled"
+            />
+          </Flex>
+
+          <Flex direction="column" gap={10}>
+            <Text fw={500} size="sm" c="dark.4">
+              Tags
+            </Text>
+            <MultiSelect
+              value={tags}
+              onChange={setTags}
+              data={tagOptions?.map((tag: string) => ({ value: tag, label: tag })) || []}
+              placeholder="Select tags"
+              variant="filled"
+            />
+          </Flex>
+
+          <Flex direction="column" gap={10}>
+            <Text fw={500} size="sm" c="dark.4">
+              Date
+            </Text>
+
+            <Paper bg="gray.1" radius={12}>
+              <Flex direction="column" gap={10} py={10}>
+                <Flex px={12} justify="space-between" align="center" w="100%">
+                  <Text size="sm" c="dark.2">
+                    Start
+                  </Text>
+                  <Group>
+                    <Text c="dark.4" fw={500} size="sm">
+                      {startDate ? startDate.toLocaleDateString() : 'Not selected'}
+                    </Text>
+                    <Popover
+                      opened={startDatePickerOpened}
+                      onChange={setStartDatePickerOpened}
+                      position="bottom"
+                      withArrow
+                    >
+                      <Popover.Target>
+                        <ActionIcon
+                          variant="filled"
+                          onClick={() => setStartDatePickerOpened((o) => !o)}
+                        >
+                          <IconCalendar size={16} />
+                        </ActionIcon>
+                      </Popover.Target>
+                      <Popover.Dropdown>
+                        <DatePicker value={startDate} onChange={setStartDate} />
+                      </Popover.Dropdown>
+                    </Popover>
+                  </Group>
+                </Flex>
+
+                <Divider size="xs" />
+
+                <Flex px={12} justify="space-between" align="center" w="100%">
+                  <Text size="sm" c="dark.2">
+                    End
+                  </Text>
+                  <Group>
+                    <Text c="dark.4" fw={500} size="sm">
+                      {endDate ? endDate.toLocaleDateString() : 'Not selected'}
+                    </Text>
+                    <Popover
+                      opened={endDatePickerOpened}
+                      onChange={setEndDatePickerOpened}
+                      position="bottom"
+                      withArrow
+                    >
+                      <Popover.Target>
+                        <ActionIcon
+                          variant="filled"
+                          onClick={() => setEndDatePickerOpened((o) => !o)}
+                        >
+                          <IconCalendar size={16} />
+                        </ActionIcon>
+                      </Popover.Target>
+                      <Popover.Dropdown>
+                        <DatePicker value={endDate} onChange={setEndDate} />
+                      </Popover.Dropdown>
+                    </Popover>
+                  </Group>
+                </Flex>
+              </Flex>
+            </Paper>
+          </Flex>
+
+          <Flex direction="column" gap={10}>
+            <Text fw={500} size="sm" c="dark.4">
+              Price Range
+            </Text>
+
+            <RangeSlider
+              value={amountRange}
+              onChange={setAmountRange}
+              min={Math.round(amountRangeData?.minAmount || 0)}
+              max={Math.round(amountRangeData?.maxAmount || 1000)}
+              marks={sliderMarks}
+              labelTransitionProps={{
+                transition: 'pop',
+                duration: 80,
+                timingFunction: 'linear',
+              }}
+            />
+          </Flex>
+        </Flex>
+
+        <Flex justify="space-between" mt="auto" gap={10}>
+          <Button onClick={handleApplyFilters}>Apply Filters</Button>
+          <Button variant="outline" onClick={handleClearFilters}>
+            Clear Filters
+          </Button>
+        </Flex>
       </Flex>
     </Paper>
   );

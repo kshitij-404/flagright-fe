@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { IconSortAscending, IconSortDescending } from '@tabler/icons-react';
 import useSWR from 'swr';
 import {
@@ -41,8 +41,12 @@ export function TransactionInventory({ filters, searchTerm }: TransactionInvento
     (url) => fetch(url).then((res) => res.json())
   );
 
-  if (error) return <Text>Error loading data</Text>;
-  if (!data) return <Skeleton mah={636} mt={27} height={200} radius="xl" maw={1024} />;
+  if (error) {
+    return <Text>Error loading data</Text>;
+  }
+  if (!data) {
+    return <Skeleton mah={636} mt={27} height={200} radius="xl" maw={1024} />;
+  }
 
   const handleSort = (field: string) => {
     if (sortBy === field) {

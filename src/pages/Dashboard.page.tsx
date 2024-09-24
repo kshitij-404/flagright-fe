@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Flex, Grid } from '@mantine/core';
+import { Box, Flex, Title } from '@mantine/core';
 import { FilterMenu } from '@/components/FilterMenu/FilterMenu';
 import { ToolkitBar } from '@/components/ToolkitBar/ToolkitBar';
 import { TransactionGraph } from '@/components/TransactionGraph/TransactionGraph';
@@ -19,28 +19,46 @@ export function Dashboard() {
   };
 
   return (
-    <Grid gutter={0}>
-      <Grid.Col span={2.5} h="100dvh" pos="sticky" top={0}>
+    <Box
+      display="grid"
+      style={{
+        gridTemplateColumns: 'auto 1fr',
+      }}
+    >
+      <Box h="100dvh" pos="sticky" top={0}>
         <FilterMenu onApplyFilters={handleApplyFilters} />
-      </Grid.Col>
-      <Grid.Col span={9.5}>
-        <Grid p={20}>
-          <Grid.Col span={12}>
-            <Flex align="center" justify="center" mb="lg">
-              <Flex w={1200} align="center" justify="space-between">
-                <TransactionGraph />
-                <TransactionMeta />
-              </Flex>
-            </Flex>
-            <Flex align='center' justify='center' mt='xl' mb='sm'>
-              <ToolkitBar onSearch={handleSearch} filters={filters}/>
-            </Flex>
-          </Grid.Col>
-          <Grid.Col span={12}>
-            <TransactionInventory filters={filters} searchTerm={searchTerm} />
-          </Grid.Col>
-        </Grid>
-      </Grid.Col>
-    </Grid>
+      </Box>
+      <Flex
+        p={32}
+        pt={40}
+        mx="auto"
+        maw="min(calc(100vw - 19rem), 75rem)"
+        direction="column"
+        gap={24}
+      >
+        <Title order={2} ml={8}>
+          Dashboard
+        </Title>
+
+        <Box
+          display="grid"
+          style={{
+            gridTemplateColumns: '6fr 3fr',
+            gap: 20,
+          }}
+          w="100%"
+        >
+          <TransactionGraph />
+          <TransactionMeta />
+        </Box>
+
+        <Flex direction="column" gap={20}>
+          <Flex align="center" justify="center">
+            <ToolkitBar onSearch={handleSearch} filters={filters}/>
+          </Flex>
+          <TransactionInventory filters={filters} searchTerm={searchTerm} />
+        </Flex>
+      </Flex>
+    </Box>
   );
 }

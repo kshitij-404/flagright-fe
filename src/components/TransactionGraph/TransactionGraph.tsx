@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 import { AreaChart } from '@mantine/charts';
-import { Card, Flex } from '@mantine/core';
+import { Flex, Paper, Text, Title } from '@mantine/core';
 import { BASE_URL } from '@/utils/constants';
 
 interface TransactionData {
@@ -34,15 +34,26 @@ export function TransactionGraph() {
   }, [graphDataResponse]);
 
   return (
-    <Flex direction="column" style={{ width: '100%' }}>
-      <Card padding="lg" style={{ width: '650px', borderRadius: '22px' }}>
+    <Paper p={0} pt={30} pb={20} radius={22}>
+      <Flex gap={0} direction="column" justify="space-between" h="100%">
+        <Flex direction="column" ml={30}>
+          <Title order={3} c="dark" fz={20}>
+            Transacted Amount
+          </Title>
+          <Text c="dimmed" size="sm">
+            Cumulative transaction amount over time
+          </Text>
+        </Flex>
         <AreaChart
-          h={340}
+          h={220}
           data={data}
           dataKey="date"
           withGradient
-          xAxisLabel="Date and Time"
-          yAxisLabel="Amount (USD)"
+          withXAxis={false}
+          withYAxis={false}
+          withDots={false}
+          // xAxisLabel="Date and Time"
+          // yAxisLabel="Amount (USD)"
           yAxisProps={{
             domain: [
               Math.round(graphDataResponse?.minAmount as any),
@@ -54,8 +65,9 @@ export function TransactionGraph() {
           }
           tooltipAnimationDuration={200}
           series={[{ name: 'amount', color: 'blue.6', label: 'Transaction Amount' }]}
+          gridAxis="x"
         />
-      </Card>
-    </Flex>
+      </Flex>
+    </Paper>
   );
 }
