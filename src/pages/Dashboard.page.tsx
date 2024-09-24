@@ -1,15 +1,21 @@
 import { useState } from 'react';
-import { Flex, Grid } from '@mantine/core';
+import { Flex, Grid, Title } from '@mantine/core';
 import { FilterMenu } from '@/components/FilterMenu/FilterMenu';
 import { TransactionGraph } from '@/components/TransactionGraph/TransactionGraph';
 import { TransactionInventory } from '@/components/TransactionInventory/TransactionInventory';
 import { TransactionMeta } from '@/components/TransactionMeta/TransactionMeta';
+import { ToolkitBar } from '@/components/ToolkitBar/ToolkitBar';
 
 export function Dashboard() {
   const [filters, setFilters] = useState<any>({});
+  const [searchTerm, setSearchTerm] = useState<string>('');
 
   const handleApplyFilters = (newFilters: any) => {
     setFilters(newFilters);
+  };
+
+  const handleSearch = (searchTerm: string) => {
+    setSearchTerm(searchTerm);
   };
 
   return (
@@ -26,9 +32,12 @@ export function Dashboard() {
                 <TransactionMeta />
               </Flex>
             </Flex>
+            <Flex align='center' justify='center' mt='xl' mb='sm'>
+              <ToolkitBar onSearch={handleSearch}/>
+            </Flex>
           </Grid.Col>
           <Grid.Col span={12}>
-            <TransactionInventory filters={filters} />
+            <TransactionInventory filters={filters} searchTerm={searchTerm} />
           </Grid.Col>
         </Grid>
       </Grid.Col>

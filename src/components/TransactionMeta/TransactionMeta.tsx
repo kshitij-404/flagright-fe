@@ -65,7 +65,7 @@ export function TransactionMeta() {
           </Flex>
           <Flex direction={'column'} justify={'space-between'}>
             <Title order={2} c="#1baf21">
-              $ {meta.successfulCount}
+              {meta.successfulCount}
             </Title>
             <Text c="dimmed">Successful Transactions</Text>
           </Flex>
@@ -89,7 +89,7 @@ export function TransactionMeta() {
           </Flex>
           <Flex direction={'column'} justify={'space-between'}>
             <Title order={2} c="#ed4216">
-              $ {meta.declinedCount}
+              {meta.declinedCount}
             </Title>
             <Text c="dimmed">Declined Transactions</Text>
           </Flex>

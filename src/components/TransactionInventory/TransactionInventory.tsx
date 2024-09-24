@@ -19,9 +19,10 @@ import { TransactionDetailsDrawer } from '../TransactionDetails/TransactionDetai
 
 interface TransactionInventoryProps {
   filters: any;
+  searchTerm: string;
 }
 
-export function TransactionInventory({ filters }: TransactionInventoryProps) {
+export function TransactionInventory({ filters, searchTerm }: TransactionInventoryProps) {
   const [page, setPage] = useState(1);
   const [sortBy, setSortBy] = useState('timestamp');
   const [sortOrder, setSortOrder] = useState('asc');
@@ -29,14 +30,14 @@ export function TransactionInventory({ filters }: TransactionInventoryProps) {
 
   useEffect(() => {
     setPage(1);
-  }, [filters]);
+  }, [filters, searchTerm]);
 
   const filteredFilters = Object.fromEntries(
     Object.entries(filters).filter(([_, value]) => value !== undefined && value !== null)
   );
 
   const { data, error } = useSWR(
-    `${BASE_URL}/transaction?page=${page}&sortBy=${sortBy}&sortOrder=${sortOrder}&${new URLSearchParams(filteredFilters as any).toString()}`,
+    `${BASE_URL}/transaction?page=${page}&sortBy=${sortBy}&sortOrder=${sortOrder}&searchTerm=${searchTerm}&${new URLSearchParams(filteredFilters as any).toString()}`,
     (url) => fetch(url).then((res) => res.json())
   );
 
