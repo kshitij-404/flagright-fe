@@ -10,36 +10,49 @@ interface TransactionData {
   amount: number;
 }
 
+interface GraphDataResponse {
+  graphData: { timestamp: number; amount: number }[];
+  minAmount: number;
+  maxAmount: number;
+}
+
 export function TransactionGraph() {
   const [data, setData] = useState<TransactionData[]>([]);
-  const { data: transactions } = useSWR(`${BASE_URL}/transactions/last-5-days`, (url) =>
-    fetch(url).then((res) => res.json())
+  const { data: graphDataResponse } = useSWR<GraphDataResponse>(
+    `${BASE_URL}/transaction/graph-data`,
+    (url: string) => fetch(url).then((res) => res.json())
   );
 
   useEffect(() => {
-    if (transactions) {
-      const formattedData = transactions.map((transaction: any) => ({
-        date: dayjs(transaction.date).format('MM/DD/YYYY HH:mm'),
+    if (graphDataResponse) {
+      const formattedData = graphDataResponse.graphData.map((transaction) => ({
+        date: dayjs(transaction.timestamp).format('MM/DD/YYYY HH:mm'),
         amount: transaction.amount,
       }));
       setData(formattedData);
     }
-  }, [transactions]);
+  }, [graphDataResponse]);
 
   return (
-    <Flex direction='column' justify="center" align="center" style={{width: '100%'}}>
-      <Card mt='xl' padding="lg" style={{ width: '1200px', borderRadius: '22px' }}>
-        <Title order={4} mb="md">
-          Transaction Graph
-        </Title>
+    <Flex direction="column" style={{ width: '100%' }}>
+      <Card mt="xl" padding="lg" style={{ width: '650px', borderRadius: '22px' }}>
         <AreaChart
-          h={300}
+          h={340}
           data={data}
           dataKey="date"
-          type="stacked"
           withGradient
           xAxisLabel="Date and Time"
-          yAxisLabel="Amount"
+          yAxisLabel="Amount (USD)"
+          yAxisProps={{
+            domain: [
+              Math.round(graphDataResponse?.minAmount as any),
+              Math.round(graphDataResponse?.maxAmount as any),
+            ],
+          }}
+          valueFormatter={(value) =>
+            new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(value)
+          }
+          tooltipAnimationDuration={200}
           series={[{ name: 'Transaction Amount', color: 'blue.6' }]}
           tooltipProps={{
             content: ({ label, payload }) => (

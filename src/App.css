@@ -1,3 +1,11 @@
 body {
     background-color: #e6e6e6;
+    margin: 0;
+    padding: 0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
