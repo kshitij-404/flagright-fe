@@ -100,7 +100,7 @@ export function FilterMenu({ onApplyFilters }: { onApplyFilters: (filters: any) 
   ];
 
   return (
-    <Paper p="md" radius="xs" style={{ backgroundColor: 'white', width: '100%', height: '100vh' }}>
+    <Paper p="md" radius="xs" h="100vh" style={{ backgroundColor: 'white', width: '100%', height: '100vh' }}>
       <Flex direction="column" align="center">
         <Flex align='flex-start' style={{width: '100%'}}>
           <Title order={3} mb="md" mt={50} ml="40">
