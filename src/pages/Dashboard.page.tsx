@@ -33,7 +33,7 @@ export function Dashboard() {
               </Flex>
             </Flex>
             <Flex align='center' justify='center' mt='xl' mb='sm'>
-              <ToolkitBar onSearch={handleSearch}/>
+              <ToolkitBar onSearch={handleSearch} filters={filters}/>
             </Flex>
           </Grid.Col>
           <Grid.Col span={12}>
