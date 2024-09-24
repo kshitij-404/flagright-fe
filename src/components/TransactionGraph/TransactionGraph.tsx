@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 import { AreaChart } from '@mantine/charts';
-import { Card, Flex, Title } from '@mantine/core';
+import { Card, Flex } from '@mantine/core';
 import { BASE_URL } from '@/utils/constants';
 
 interface TransactionData {
@@ -53,26 +53,7 @@ export function TransactionGraph() {
             new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(value)
           }
           tooltipAnimationDuration={200}
-          series={[{ name: 'Transaction Amount', color: 'blue.6' }]}
-          tooltipProps={{
-            content: ({ label, payload }) => (
-              <div
-                style={{
-                  padding: '10px',
-                  backgroundColor: 'white',
-                  border: '1px solid #ccc',
-                  borderRadius: '5px',
-                }}
-              >
-                <strong>{label}</strong>
-                {payload?.map((item: any) => (
-                  <div key={item.name} style={{ color: item.color }}>
-                    {item.name}: {item.value}
-                  </div>
-                ))}
-              </div>
-            ),
-          }}
+          series={[{ name: 'amount', color: 'blue.6', label: 'Transaction Amount' }]}
         />
       </Card>
     </Flex>

@@ -4,6 +4,7 @@ import { MantineProvider } from '@mantine/core';
 import { Router } from './Router';
 import { theme } from './theme';
 
+import '@mantine/charts/styles.css';
 import './App.css';
 
 export default function App() {
