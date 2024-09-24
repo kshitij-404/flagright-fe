@@ -1,10 +1,11 @@
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
-import { IconSortAscending, IconSortDescending } from '@tabler/icons-react';
+import { IconArrowsMoveVertical, IconSortAscending, IconSortDescending } from '@tabler/icons-react';
 import useSWR from 'swr';
 import {
   ActionIcon,
   Badge,
+  Button,
   CopyButton,
   Flex,
   NumberFormatter,
@@ -36,7 +37,7 @@ export function TransactionInventory({ filters, searchTerm }: TransactionInvento
     Object.entries(filters).filter(([_, value]) => value !== undefined && value !== null)
   );
 
-  const { data, error } = useSWR(
+  const { data, error, isLoading } = useSWR(
     `${BASE_URL}/transaction?page=${page}&sortBy=${sortBy}&sortOrder=${sortOrder}&searchTerm=${searchTerm}&${new URLSearchParams(filteredFilters as any).toString()}`,
     (url) => fetch(url).then((res) => res.json())
   );
@@ -44,9 +45,9 @@ export function TransactionInventory({ filters, searchTerm }: TransactionInvento
   if (error) {
     return <Text>Error loading data</Text>;
   }
-  if (!data) {
-    return <Skeleton mah={636} mt={27} height={200} radius="xl" maw={1024} />;
-  }
+  // if (!data) {
+  //   return <Skeleton mah={636} mt={27} height={200} radius="xl" maw={1024} />;
+  // }
 
   const handleSort = (field: string) => {
     if (sortBy === field) {
@@ -58,7 +59,7 @@ export function TransactionInventory({ filters, searchTerm }: TransactionInvento
   };
 
   const rows =
-    data.transactions && data.transactions.length > 0 ? (
+    data && data.transactions && data.transactions.length > 0 ? (
       data.transactions?.map((transaction: any) => (
         <Table.Tr
           key={transaction._id}
@@ -66,22 +67,32 @@ export function TransactionInventory({ filters, searchTerm }: TransactionInvento
           style={{ cursor: 'pointer' }}
         >
           <Table.Td style={{ textAlign: 'center' }}>
-            <Badge variant="light" color="blue" size="lg">
+            <Badge variant="light" color="blue" size="md">
               {transaction.type}
             </Badge>
           </Table.Td>
           <Table.Td style={{ textAlign: 'center' }}>
             <CopyButton value={transaction.transactionId} timeout={1000}>
               {({ copied, copy }) => (
-                <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow position="right">
+                <Tooltip
+                  label={copied ? 'Copied' : 'Copy'}
+                  withArrow
+                  position="right"
+                  transitionProps={{ transition: 'scale-x' }}
+                >
                   <Badge
-                    color={copied ? 'teal' : 'transparent'}
-                    variant="filled"
-                    onClick={copy}
+                    className="mono"
+                    color={copied ? 'teal' : 'dark'}
+                    variant={copied ? 'light' : 'transparent'}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      copy();
+                    }}
+                    fw={500}
                     style={{
                       cursor: 'pointer',
-                      border: copied ? 'none' : '1px solid gray',
-                      color: copied ? 'white' : 'black',
+                      // border: copied ? 'none' : '1px solid gray',
+                      // color: copied ? 'white' : 'black',
                     }}
                   >
                     {transaction.transactionId}
@@ -91,17 +102,19 @@ export function TransactionInventory({ filters, searchTerm }: TransactionInvento
             </CopyButton>
           </Table.Td>
           <Table.Td>
-            <div style={{ textAlign: 'center' }}>
-              <Text size="sm">{dayjs(transaction.timestamp).format('MMM D, YYYY')}</Text>
-              <Text c="dimmed" style={{ fontSize: '12px' }}>
-                {`at ${dayjs(transaction.timestamp).format('h:mm A')}`}
+            <Flex direction="column" gap={2} align="center">
+              <Text size="sm" fw={600} c="dark.4">
+                {dayjs(transaction.timestamp).format('MMM D, YYYY')}
               </Text>
-            </div>
+              <Text c="dimmed" size="xs">
+                {`${dayjs(transaction.timestamp).format('h:mm A')}`}
+              </Text>
+            </Flex>
           </Table.Td>
           <Table.Td style={{ textAlign: 'center' }}>{transaction.originUserId}</Table.Td>
           <Table.Td style={{ textAlign: 'center' }}>{transaction.destinationUserId}</Table.Td>
           <Table.Td style={{ textAlign: 'center' }}>
-            <Badge variant="light" color="blue" size="lg">
+            <Badge variant="light" color="blue" size="md">
               {transaction.transactionState}
             </Badge>
           </Table.Td>
@@ -115,10 +128,18 @@ export function TransactionInventory({ filters, searchTerm }: TransactionInvento
           </Table.Td>
           <Table.Td style={{ textAlign: 'center' }}>
             {transaction.tags.map((tag: any) => (
-              <Badge variant="light" key={tag._id} color="green" size="sm" mr="xs">
+              <Badge variant="light" key={tag._id} color="green" size="md">
                 {`${tag.key}`}
               </Badge>
             ))}
+          </Table.Td>
+        </Table.Tr>
+      ))
+    ) : isLoading ? (
+      new Array(5).fill(0).map((_, index) => (
+        <Table.Tr key={index} p={0}>
+          <Table.Td colSpan={8}>
+            <Skeleton height={40} />
           </Table.Td>
         </Table.Tr>
       ))
@@ -131,12 +152,12 @@ export function TransactionInventory({ filters, searchTerm }: TransactionInvento
     );
 
   return (
-    <div>
+    <Flex direction="column" gap={30}>
       <Flex
         justify="center"
         align="center"
         style={{
-          marginBottom: '60px',
+          // marginBottom: '60px',
           borderBottomLeftRadius: 22,
           borderBottomRightRadius: 22,
         }}
@@ -150,7 +171,7 @@ export function TransactionInventory({ filters, searchTerm }: TransactionInvento
           horizontalSpacing="md"
           verticalSpacing="md"
           highlightOnHover
-          mah={636}
+          // mah={636}
           bgcolor="#ffffff"
           style={{
             borderRadius: 18,
@@ -165,7 +186,7 @@ export function TransactionInventory({ filters, searchTerm }: TransactionInvento
           <Table.Thead>
             <Table.Tr>
               <Table.Th style={{ textAlign: 'center' }}>
-                Type
+                {/* Type
                 <ActionIcon
                   variant="subtle"
                   color="black"
@@ -179,7 +200,26 @@ export function TransactionInventory({ filters, searchTerm }: TransactionInvento
                   ) : (
                     <IconSortDescending size={16} />
                   )}
-                </ActionIcon>
+                </ActionIcon> */}
+                <Button
+                  size="compact-sm"
+                  variant="subtle"
+                  c="dark"
+                  rightSection={
+                    sortBy === 'type' ? (
+                      sortOrder === 'asc' ? (
+                        <IconSortAscending size={16} stroke={1.5} />
+                      ) : (
+                        <IconSortDescending size={16} stroke={1.5} />
+                      )
+                    ) : (
+                      <IconArrowsMoveVertical size={16} stroke={1.5} />
+                    )
+                  }
+                  onClick={() => handleSort('type')}
+                >
+                  Type
+                </Button>
               </Table.Th>
               <Table.Th style={{ textAlign: 'center' }}>
                 Txn ID
@@ -307,7 +347,7 @@ export function TransactionInventory({ filters, searchTerm }: TransactionInvento
       </Flex>
       <Flex justify="center" align="center">
         <Pagination
-          total={data.metadata?.totalPages}
+          total={data?.metadata?.totalPages || 0}
           value={page}
           onChange={setPage}
           size="md"
@@ -318,6 +358,6 @@ export function TransactionInventory({ filters, searchTerm }: TransactionInvento
         transactionId={selectedTransactionId}
         onClose={() => setSelectedTransactionId(null)}
       />
-    </div>
+    </Flex>
   );
 }
