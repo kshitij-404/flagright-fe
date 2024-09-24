@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Flex, Grid, Title } from '@mantine/core';
+import { Flex, Grid } from '@mantine/core';
 import { FilterMenu } from '@/components/FilterMenu/FilterMenu';
 import { TransactionGraph } from '@/components/TransactionGraph/TransactionGraph';
 import { TransactionInventory } from '@/components/TransactionInventory/TransactionInventory';

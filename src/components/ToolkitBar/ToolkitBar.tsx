@@ -2,7 +2,7 @@ import { Button, Flex, TextInput } from '@mantine/core';
 import { useState } from 'react';
 
 interface ToolkitBarProps {
-    onSearch: (searchQuery: string) => void;
+  onSearch: (searchQuery: string) => void;
 }
 
 export function ToolkitBar({ onSearch }: ToolkitBarProps) {
@@ -16,15 +16,25 @@ export function ToolkitBar({ onSearch }: ToolkitBarProps) {
     onSearch(searchQuery);
   };
 
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   return (
-    <Flex align="center" justify="space-between" style={{ width: '1200px'}}>
+    <Flex align="center" justify="space-between" style={{ width: '1200px' }}>
       <TextInput
         placeholder="Search..."
         radius="xl"
         value={searchQuery}
         onChange={handleSearchChange}
+        onKeyPress={handleKeyPress}
         style={{ width: '50%' }}
       />
+      <Button color="blue" radius="xl" onClick={handleSearch}>
+        Search
+      </Button>
       <Button color="blue" radius="xl">
         Generate Report
       </Button>

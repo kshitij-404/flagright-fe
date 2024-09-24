@@ -70,9 +70,9 @@ export function FilterMenu({ onApplyFilters }: { onApplyFilters: (filters: any) 
       startDate,
       endDate,
       description,
-      types,
-      states,
-      tags,
+      type: types.join(','),
+      state: states.join(','),
+      tags: tags.join(','),
     };
     onApplyFilters(filters);
   };
