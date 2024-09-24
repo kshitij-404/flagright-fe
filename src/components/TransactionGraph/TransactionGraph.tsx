@@ -35,7 +35,7 @@ export function TransactionGraph() {
 
   return (
     <Flex direction="column" style={{ width: '100%' }}>
-      <Card mt="xl" padding="lg" style={{ width: '650px', borderRadius: '22px' }}>
+      <Card padding="lg" style={{ width: '650px', borderRadius: '22px' }}>
         <AreaChart
           h={340}
           data={data}

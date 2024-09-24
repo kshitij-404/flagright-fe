@@ -20,7 +20,7 @@ export function TransactionMeta() {
   }
 
   return (
-    <Card padding="lg" mt="xl" h={380} w="70%" style={{ borderRadius: '22px' }}>
+    <Card padding="lg" h={380} w="70%" style={{ borderRadius: '22px' }}>
       <Flex direction="column" justify="space-between" h="100%">
         <Flex
           p="lg"
