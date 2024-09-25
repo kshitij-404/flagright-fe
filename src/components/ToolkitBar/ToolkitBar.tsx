@@ -55,8 +55,11 @@ export function ToolkitBar({ onSearch, filters }: ToolkitBarProps) {
   };
 
   const downloadCSV = async () => {
+    const filteredFilters = Object.fromEntries(
+      Object.entries(filters).filter(([_, value]) => value !== undefined && value !== null)
+    );
     try {
-      const queryParams = new URLSearchParams(filters).toString();
+      const queryParams = new URLSearchParams(filteredFilters as any).toString();
       const response = await fetch(`${BASE_URL}/transaction/download-csv?${queryParams}`, {
         method: 'GET',
         headers: {
@@ -82,8 +85,11 @@ export function ToolkitBar({ onSearch, filters }: ToolkitBarProps) {
   };
 
   const downloadPDF = async () => {
+    const filteredFilters = Object.fromEntries(
+      Object.entries(filters).filter(([_, value]) => value !== undefined && value !== null)
+    );
     try {
-      const queryParams = new URLSearchParams(filters).toString();
+      const queryParams = new URLSearchParams(filteredFilters as any).toString();
       const response = await fetch(`${BASE_URL}/transaction/report?${queryParams}`, {
         method: 'GET',
         headers: {
