@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Box, Flex, Title } from '@mantine/core';
+import Avatar from '@/components/Avatar';
 import { FilterMenu } from '@/components/FilterMenu/FilterMenu';
 import { ToolkitBar } from '@/components/ToolkitBar/ToolkitBar';
 import { TransactionGraph } from '@/components/TransactionGraph/TransactionGraph';
@@ -37,9 +38,12 @@ export function Dashboard() {
         direction="column"
         gap={24}
       >
-        <Title order={2} ml={8}>
-          Dashboard
-        </Title>
+        <Flex justify="space-between">
+          <Title order={2} ml={8}>
+            Dashboard
+          </Title>
+          <Avatar />
+        </Flex>
 
         <Box
           display="grid"
@@ -55,7 +59,7 @@ export function Dashboard() {
 
         <Flex direction="column" gap={0}>
           <Flex align="center" justify="center">
-            <ToolkitBar onSearch={handleSearch} filters={filters}/>
+            <ToolkitBar onSearch={handleSearch} filters={filters} />
           </Flex>
           <Box>
             <TransactionInventory filters={filters} searchTerm={searchTerm} />
