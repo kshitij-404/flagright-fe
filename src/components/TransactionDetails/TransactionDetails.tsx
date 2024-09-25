@@ -8,9 +8,11 @@ import {
   Flex,
   Group,
   NumberFormatter,
+  Paper,
   SimpleGrid,
   Tabs,
   Text,
+  Title,
   Tooltip,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
@@ -136,54 +138,67 @@ export function TransactionDetailsDrawer({
         close();
         onClose();
       }}
-      title="Transaction Details"
-      position="right"
-      size="lg"
-      offset={10}
-    >
-      {transaction ? (
-        <div>
+      title={
+        <Flex gap={12} align="center">
+          <Title order={3} fz={20}>
+            Transaction Details
+          </Title>
           <CopyButton value={transaction.transactionId} timeout={1000}>
             {({ copied, copy }) => (
               <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow position="right">
                 <Badge
-                  color={copied ? 'teal' : 'transparent'}
-                  variant="filled"
+                  color={copied ? 'teal' : 'yellow'}
+                  variant="dot"
                   onClick={copy}
                   style={{
                     cursor: 'pointer',
-                    border: copied ? 'none' : '1px solid gray',
-                    color: copied ? 'white' : 'black',
-                    fontSize: '13px',
-                    padding: '5px 14px',
                   }}
+                  // size="lg"
                 >
                   {transaction.transactionId}
                 </Badge>
               </Tooltip>
             )}
           </CopyButton>
-          <Flex
-            justify={'space-between'}
-            mt={14}
-            mb={12}
-            style={{ border: '1px solid #eaeaea', padding: '14px', borderRadius: '20px' }}
-          >
-            <Text size="lg">
-              From <strong>{transaction.originUserId}</strong> to{' '}
-              <strong>{transaction.destinationUserId}</strong>
-            </Text>
-            <Text size="lg">
-              <strong>
-                <NumberFormatter
-                  value={transaction.originAmountDetails.transactionAmount}
-                  thousandSeparator
-                  decimalScale={2}
-                  prefix={`${transaction.originAmountDetails.transactionCurrency} `}
-                />
-              </strong>
-            </Text>
-          </Flex>
+        </Flex>
+      }
+      position="right"
+      size={500}
+      offset={10}
+    >
+      {transaction ? (
+        <Flex gap={20} direction="column">
+          <Paper p={14} radius={20} bg="gray.0">
+            <Flex
+              justify="space-between"
+              align="center"
+              // style={{ border: '1px solid #eaeaea', padding: '14px', borderRadius: '20px' }}
+            >
+              <Text size="md" className="font-mono">
+                {/* From{' '} */}
+                <Badge className="font-mono" variant="light" size="lg" color="red" mx={3}>
+                  {transaction.originUserId}
+                </Badge>
+                {' => '}
+                {/* <br /> */}
+                {/* to{' '} */}
+                <Badge className="font-mono" variant="light" size="lg" color="teal" mx={3}>
+                  {transaction.destinationUserId}
+                </Badge>
+              </Text>
+              <Text size="lg">
+                <strong>
+                  <NumberFormatter
+                    value={transaction.originAmountDetails.transactionAmount}
+                    thousandSeparator
+                    decimalScale={2}
+                    prefix={`${transaction.originAmountDetails.transactionCurrency} `}
+                  />
+                </strong>
+              </Text>
+            </Flex>
+          </Paper>
+
           <Group mt="md">
             Type:
             <Badge color="blue" size="lg">
@@ -256,7 +271,7 @@ export function TransactionDetailsDrawer({
               {renderDeviceDetails(transaction.destinationDeviceData)}
             </Tabs.Panel>
           </Tabs>
-        </div>
+        </Flex>
       ) : (
         <Text>Loading...</Text>
       )}

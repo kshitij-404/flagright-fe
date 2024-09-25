@@ -81,14 +81,14 @@ export function TransactionInventory({ filters, searchTerm }: TransactionInvento
                   transitionProps={{ transition: 'scale-x' }}
                 >
                   <Badge
-                    className="mono"
+                    className="font-mono"
                     color={copied ? 'teal' : 'dark'}
                     variant={copied ? 'light' : 'transparent'}
                     onClick={(e) => {
                       e.stopPropagation();
                       copy();
                     }}
-                    fw={500}
+                    fw={400}
                     style={{
                       cursor: 'pointer',
                       // border: copied ? 'none' : '1px solid gray',
@@ -111,8 +111,68 @@ export function TransactionInventory({ filters, searchTerm }: TransactionInvento
               </Text>
             </Flex>
           </Table.Td>
-          <Table.Td style={{ textAlign: 'center' }}>{transaction.originUserId}</Table.Td>
-          <Table.Td style={{ textAlign: 'center' }}>{transaction.destinationUserId}</Table.Td>
+          {/* <Table.Td style={{ textAlign: 'center' }}>{transaction.originUserId}</Table.Td> */}
+          <Table.Td style={{ textAlign: 'center' }}>
+            <CopyButton value={transaction.originUserId} timeout={1000}>
+              {({ copied, copy }) => (
+                <Tooltip
+                  label={copied ? 'Copied' : 'Copy'}
+                  withArrow
+                  position="right"
+                  transitionProps={{ transition: 'scale-x' }}
+                >
+                  <Badge
+                    className="font-mono"
+                    color={copied ? 'teal' : 'dark'}
+                    variant={copied ? 'light' : 'transparent'}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      copy();
+                    }}
+                    fw={400}
+                    style={{
+                      cursor: 'pointer',
+                      // border: copied ? 'none' : '1px solid gray',
+                      // color: copied ? 'white' : 'black',
+                    }}
+                  >
+                    {transaction.originUserId}
+                  </Badge>
+                </Tooltip>
+              )}
+            </CopyButton>
+          </Table.Td>
+          <Table.Td style={{ textAlign: 'center' }}>
+            {' '}
+            <CopyButton value={transaction.destinationUserId} timeout={1000}>
+              {({ copied, copy }) => (
+                <Tooltip
+                  label={copied ? 'Copied' : 'Copy'}
+                  withArrow
+                  position="right"
+                  transitionProps={{ transition: 'scale-x' }}
+                >
+                  <Badge
+                    className="font-mono"
+                    color={copied ? 'teal' : 'dark'}
+                    variant={copied ? 'light' : 'transparent'}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      copy();
+                    }}
+                    fw={400}
+                    style={{
+                      cursor: 'pointer',
+                      // border: copied ? 'none' : '1px solid gray',
+                      // color: copied ? 'white' : 'black',
+                    }}
+                  >
+                    {transaction.destinationUserId}
+                  </Badge>
+                </Tooltip>
+              )}
+            </CopyButton>
+          </Table.Td>
           <Table.Td style={{ textAlign: 'center' }}>
             <Badge variant="light" color="blue" size="md">
               {transaction.transactionState}
