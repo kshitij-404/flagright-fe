@@ -6,6 +6,7 @@ import {
   IconTransactionDollar,
 } from '@tabler/icons-react';
 import { ActionIcon, Button, Flex, TextInput, useMantineTheme } from '@mantine/core';
+import { apiFetcher } from '@/utils/axios';
 import { BASE_URL } from '@/utils/constants';
 
 interface ToolkitBarProps {
@@ -43,20 +44,12 @@ export function ToolkitBar({ onSearch, filters }: ToolkitBarProps) {
   const toggleTransactionGenerator = async () => {
     const action = isGeneratorRunning ? 'stop' : 'start';
     try {
-      const response = await fetch(`${BASE_URL}/transaction/generator`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ action }),
+      await apiFetcher.post(`${BASE_URL}/transaction/generator`, {
+        action,
       });
 
-      if (response.ok) {
-        setIsGeneratorRunning(!isGeneratorRunning);
-        localStorage.setItem('isGeneratorRunning', JSON.stringify(!isGeneratorRunning));
-      } else {
-        console.error('Failed to toggle transaction generator');
-      }
+      setIsGeneratorRunning(!isGeneratorRunning);
+      localStorage.setItem('isGeneratorRunning', JSON.stringify(!isGeneratorRunning));
     } catch (error) {
       console.error('Error toggling transaction generator', error);
     }
@@ -68,25 +61,20 @@ export function ToolkitBar({ onSearch, filters }: ToolkitBarProps) {
     );
     try {
       const queryParams = new URLSearchParams(filteredFilters as any).toString();
-      const response = await fetch(`${BASE_URL}/transaction/download-csv?${queryParams}`, {
-        method: 'GET',
+      const response = await apiFetcher.get(`${BASE_URL}/transaction/download-csv?${queryParams}`, {
+        responseType: 'blob',
         headers: {
           'Content-Type': 'text/csv',
         },
       });
 
-      if (response.ok) {
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'transactions.csv';
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-      } else {
-        console.error('Failed to download CSV');
-      }
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'transactions.csv';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
     } catch (error) {
       console.error('Error downloading CSV', error);
     }
@@ -98,25 +86,20 @@ export function ToolkitBar({ onSearch, filters }: ToolkitBarProps) {
     );
     try {
       const queryParams = new URLSearchParams(filteredFilters as any).toString();
-      const response = await fetch(`${BASE_URL}/transaction/report?${queryParams}`, {
-        method: 'GET',
+      const response = await apiFetcher.get(`${BASE_URL}/transaction/report?${queryParams}`, {
+        responseType: 'blob',
         headers: {
           'Content-Type': 'application/pdf',
         },
       });
 
-      if (response.ok) {
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'transaction_report.pdf';
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-      } else {
-        console.error('Failed to download PDF');
-      }
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'transaction_report.pdf';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
     } catch (error) {
       console.error('Error downloading PDF', error);
     }
