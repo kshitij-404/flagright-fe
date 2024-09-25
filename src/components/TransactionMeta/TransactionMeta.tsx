@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import { FaCheck, FaDollarSign, FaExclamation } from 'react-icons/fa';
 import useSWR from 'swr';
-import { Flex, Paper, Text, Title } from '@mantine/core';
+import { Flex, Paper, Skeleton, Text, Title } from '@mantine/core';
 import { swrFetcher } from '@/utils/swr';
 
 interface TransactionMetaData {
@@ -19,7 +19,7 @@ export function TransactionMeta() {
   const meta = data?.data;
 
   if (!meta) {
-    return <Text>Loading...</Text>;
+    return <Skeleton h={352} w="100%" radius={22} />;
   }
 
   return (
