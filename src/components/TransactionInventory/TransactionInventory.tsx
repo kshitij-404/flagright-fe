@@ -26,7 +26,7 @@ interface TransactionInventoryProps {
 export function TransactionInventory({ filters, searchTerm }: TransactionInventoryProps) {
   const [page, setPage] = useState(1);
   const [sortBy, setSortBy] = useState('timestamp');
-  const [sortOrder, setSortOrder] = useState('asc');
+  const [sortOrder, setSortOrder] = useState('dsc');
   const [selectedTransactionId, setSelectedTransactionId] = useState<string | null>(null);
 
   useEffect(() => {

@@ -16,28 +16,7 @@ import {
   Title,
 } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
-import { BASE_URL } from '@/utils/constants';
-
-const transactionTypes = [
-  { value: 'DEPOSIT', label: 'Deposit' },
-  { value: 'TRANSFER', label: 'Transfer' },
-  { value: 'EXTERNAL_PAYMENT', label: 'External Payment' },
-  { value: 'WITHDRAWAL', label: 'Withdrawal' },
-  { value: 'REFUND', label: 'Refund' },
-  { value: 'OTHER', label: 'Other' },
-];
-
-const transactionStates = [
-  { value: 'CREATED', label: 'Created' },
-  { value: 'PROCESSING', label: 'Processing' },
-  { value: 'SENT', label: 'Sent' },
-  { value: 'EXPIRED', label: 'Expired' },
-  { value: 'DECLINED', label: 'Declined' },
-  { value: 'SUSPENDED', label: 'Suspended' },
-  { value: 'REFUNDED', label: 'Refunded' },
-  { value: 'SUCCESSFUL', label: 'Successful' },
-  { value: 'REVERSED', label: 'Reversed' },
-];
+import { BASE_URL, currencyOptions, transactionStates, transactionTypes } from '@/utils/constants';
 
 export function FilterMenu({ onApplyFilters }: { onApplyFilters: (filters: any) => void }) {
   const [amountRange, setAmountRange] = useState<[number, number]>([0, 1000]);
@@ -47,12 +26,18 @@ export function FilterMenu({ onApplyFilters }: { onApplyFilters: (filters: any) 
   const [types, setTypes] = useState<string[]>([]);
   const [states, setStates] = useState<string[]>([]);
   const [tags, setTags] = useState<string[]>([]);
+  const [originUserIds, setOriginUserIds] = useState<string[]>([]);
+  const [destinationUserIds, setDestinationUserIds] = useState<string[]>([]);
+  const [currencies, setCurrencies] = useState<string[]>([]);
   const [startDatePickerOpened, setStartDatePickerOpened] = useState(false);
   const [endDatePickerOpened, setEndDatePickerOpened] = useState(false);
   const { data: tagOptions } = useSWR(`${BASE_URL}/transaction/tags`, (url) =>
     fetch(url).then((res) => res.json())
   );
   const { data: amountRangeData } = useSWR(`${BASE_URL}/transaction/amount-range`, (url) =>
+    fetch(url).then((res) => res.json())
+  );
+  const { data: userList } = useSWR(`${BASE_URL}/transaction/user-id-list`, (url) =>
     fetch(url).then((res) => res.json())
   );
 
@@ -72,18 +57,24 @@ export function FilterMenu({ onApplyFilters }: { onApplyFilters: (filters: any) 
       type: types.join(','),
       state: states.join(','),
       tags: tags.join(','),
+      originUserId: originUserIds.join(','),
+      destinationUserId: destinationUserIds.join(','),
+      currency: currencies.join(','),
     };
     onApplyFilters(filters);
   };
 
   const handleClearFilters = () => {
-    setAmountRange([0, 1000]);
+    setAmountRange([amountRangeData.minAmount, amountRangeData.maxAmount]);
     setStartDate(null);
     setEndDate(null);
     setDescription('');
     setTypes([]);
     setStates([]);
     setTags([]);
+    setOriginUserIds([]);
+    setDestinationUserIds([]);
+    setCurrencies([]);
     onApplyFilters({});
   };
 
@@ -166,6 +157,32 @@ export function FilterMenu({ onApplyFilters }: { onApplyFilters: (filters: any) 
 
           <Flex direction="column" gap={10}>
             <Text fw={500} size="sm" c="dark.4">
+              Sender
+            </Text>
+            <MultiSelect
+              value={originUserIds}
+              onChange={setOriginUserIds}
+              data={userList?.map((user: string) => ({ value: user, label: user })) || []}
+              placeholder="Select user"
+              variant="filled"
+            />
+          </Flex>
+
+          <Flex direction="column" gap={10}>
+            <Text fw={500} size="sm" c="dark.4">
+              Receiver
+            </Text>
+            <MultiSelect
+              value={destinationUserIds}
+              onChange={setDestinationUserIds}
+              data={userList?.map((user: string) => ({ value: user, label: user })) || []}
+              placeholder="Select user"
+              variant="filled"
+            />
+          </Flex>
+
+          <Flex direction="column" gap={10}>
+            <Text fw={500} size="sm" c="dark.4">
               Date
             </Text>
 
@@ -232,6 +249,19 @@ export function FilterMenu({ onApplyFilters }: { onApplyFilters: (filters: any) 
                 </Flex>
               </Flex>
             </Paper>
+          </Flex>
+
+          <Flex direction="column" gap={10}>
+            <Text fw={500} size="sm" c="dark.4">
+              Currency
+            </Text>
+            <MultiSelect
+              value={currencies}
+              onChange={setCurrencies}
+              data={currencyOptions}
+              placeholder="Select Currency"
+              variant="filled"
+            />
           </Flex>
 
           <Flex direction="column" gap={10}>
