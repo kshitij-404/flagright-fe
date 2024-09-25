@@ -1,7 +1,8 @@
+import { AxiosResponse } from 'axios';
 import { FaCheck, FaDollarSign, FaExclamation } from 'react-icons/fa';
 import useSWR from 'swr';
 import { Flex, Paper, Text, Title } from '@mantine/core';
-import { BASE_URL } from '@/utils/constants';
+import { swrFetcher } from '@/utils/swr';
 
 interface TransactionMetaData {
   totalAmountInUSD: number;
@@ -10,10 +11,12 @@ interface TransactionMetaData {
 }
 
 export function TransactionMeta() {
-  const { data: meta } = useSWR<TransactionMetaData>(
-    `${BASE_URL}/transaction/aggregate-data`,
-    (url: string) => fetch(url).then((res) => res.json())
+  const { data } = useSWR<AxiosResponse<TransactionMetaData>>(
+    ['transaction/aggregate-data', 'get'],
+    swrFetcher
   );
+
+  const meta = data?.data;
 
   if (!meta) {
     return <Text>Loading...</Text>;

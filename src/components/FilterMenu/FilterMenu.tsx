@@ -17,7 +17,8 @@ import {
   Title,
 } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
-import { BASE_URL, currencyOptions, transactionStates, transactionTypes } from '@/utils/constants';
+import { currencyOptions, transactionStates, transactionTypes } from '@/utils/constants';
+import { swrFetcher } from '@/utils/swr';
 
 export function FilterMenu({ onApplyFilters }: { onApplyFilters: (filters: any) => void }) {
   const [amountRange, setAmountRange] = useState<[number, number]>([0, 1000]);
@@ -32,19 +33,13 @@ export function FilterMenu({ onApplyFilters }: { onApplyFilters: (filters: any) 
   const [currencies, setCurrencies] = useState<string[]>([]);
   const [startDatePickerOpened, setStartDatePickerOpened] = useState(false);
   const [endDatePickerOpened, setEndDatePickerOpened] = useState(false);
-  const { data: tagOptions } = useSWR(`${BASE_URL}/transaction/tags`, (url) =>
-    fetch(url).then((res) => res.json())
-  );
-  const { data: amountRangeData } = useSWR(`${BASE_URL}/transaction/amount-range`, (url) =>
-    fetch(url).then((res) => res.json())
-  );
-  const { data: userList } = useSWR(`${BASE_URL}/transaction/user-id-list`, (url) =>
-    fetch(url).then((res) => res.json())
-  );
+  const { data: tagOptions } = useSWR([`transaction/tags`, 'get'], swrFetcher);
+  const { data: amountRangeData } = useSWR([`transaction/amount-range`, 'get'], swrFetcher);
+  const { data: userList } = useSWR([`transaction/user-id-list`, 'get'], swrFetcher);
 
   useEffect(() => {
-    if (amountRangeData) {
-      setAmountRange([amountRangeData.minAmount, amountRangeData.maxAmount]);
+    if (amountRangeData?.data) {
+      setAmountRange([amountRangeData?.data.minAmount, amountRangeData?.data.maxAmount]);
     }
   }, [amountRangeData]);
 
@@ -66,7 +61,7 @@ export function FilterMenu({ onApplyFilters }: { onApplyFilters: (filters: any) 
   };
 
   const handleClearFilters = () => {
-    setAmountRange([amountRangeData.minAmount, amountRangeData.maxAmount]);
+    setAmountRange([amountRangeData?.data.minAmount, amountRangeData?.data.maxAmount]);
     setStartDate(null);
     setEndDate(null);
     setDescription('');
@@ -81,12 +76,12 @@ export function FilterMenu({ onApplyFilters }: { onApplyFilters: (filters: any) 
 
   const sliderMarks = [
     {
-      value: Math.round(amountRangeData?.minAmount || 0),
-      label: `${Math.round(amountRangeData?.minAmount || 0)}`,
+      value: Math.round(amountRangeData?.data?.minAmount || 0),
+      label: `${Math.round(amountRangeData?.data?.minAmount || 0)}`,
     },
     {
-      value: Math.round(amountRangeData?.maxAmount || 1000),
-      label: `${Math.round(amountRangeData?.maxAmount || 1000)}`,
+      value: Math.round(amountRangeData?.data?.maxAmount || 1000),
+      label: `${Math.round(amountRangeData?.data?.maxAmount || 1000)}`,
     },
   ];
 
@@ -153,7 +148,7 @@ export function FilterMenu({ onApplyFilters }: { onApplyFilters: (filters: any) 
               <MultiSelect
                 value={tags}
                 onChange={setTags}
-                data={tagOptions?.map((tag: string) => ({ value: tag, label: tag })) || []}
+                data={tagOptions?.data?.map((tag: string) => ({ value: tag, label: tag })) || []}
                 placeholder="Select tags"
                 variant="filled"
                 label="Tags"
@@ -167,7 +162,7 @@ export function FilterMenu({ onApplyFilters }: { onApplyFilters: (filters: any) 
               <MultiSelect
                 value={originUserIds}
                 onChange={setOriginUserIds}
-                data={userList?.map((user: string) => ({ value: user, label: user })) || []}
+                data={userList?.data?.map((user: string) => ({ value: user, label: user })) || []}
                 placeholder="Select user"
                 variant="filled"
                 label="Sender"
@@ -181,7 +176,7 @@ export function FilterMenu({ onApplyFilters }: { onApplyFilters: (filters: any) 
               <MultiSelect
                 value={destinationUserIds}
                 onChange={setDestinationUserIds}
-                data={userList?.map((user: string) => ({ value: user, label: user })) || []}
+                data={userList?.data?.map((user: string) => ({ value: user, label: user })) || []}
                 placeholder="Select user"
                 variant="filled"
                 label="Receiver"
@@ -280,8 +275,8 @@ export function FilterMenu({ onApplyFilters }: { onApplyFilters: (filters: any) 
               <RangeSlider
                 value={amountRange}
                 onChange={setAmountRange}
-                min={Math.round(amountRangeData?.minAmount || 0)}
-                max={Math.round(amountRangeData?.maxAmount || 1000)}
+                min={Math.round(amountRangeData?.data?.minAmount || 0)}
+                max={Math.round(amountRangeData?.data?.maxAmount || 1000)}
                 marks={sliderMarks}
                 labelTransitionProps={{
                   transition: 'pop',

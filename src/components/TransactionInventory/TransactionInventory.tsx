@@ -15,7 +15,7 @@ import {
   Text,
   Tooltip,
 } from '@mantine/core';
-import { BASE_URL } from '@/utils/constants';
+import { swrFetcher } from '@/utils/swr';
 import { TransactionDetailsDrawer } from '../TransactionDetails/TransactionDetails';
 
 interface TransactionInventoryProps {
@@ -38,9 +38,23 @@ export function TransactionInventory({ filters, searchTerm }: TransactionInvento
   );
 
   const { data, error, isLoading } = useSWR(
-    `${BASE_URL}/transaction?page=${page}&sortBy=${sortBy}&sortOrder=${sortOrder}&searchTerm=${searchTerm}&${new URLSearchParams(filteredFilters as any).toString()}`,
-    (url) => fetch(url).then((res) => res.json())
+    [
+      // `${BASE_URL}/transaction?page=${page}&sortBy=${sortBy}&sortOrder=${sortOrder}&searchTerm=${searchTerm}&${new URLSearchParams(filteredFilters as any).toString()}`,
+      'transaction',
+      'get',
+      {
+        params: {
+          page,
+          sortBy,
+          sortOrder,
+          searchTerm,
+          ...filteredFilters,
+        },
+      },
+    ],
+    swrFetcher
   );
+  const transactions = data?.data;
 
   if (error) {
     return <Text>Error loading data</Text>;
@@ -59,8 +73,8 @@ export function TransactionInventory({ filters, searchTerm }: TransactionInvento
   };
 
   const rows =
-    data && data.transactions && data.transactions.length > 0 ? (
-      data.transactions?.map((transaction: any) => (
+    transactions && transactions.transactions && transactions.transactions.length > 0 ? (
+      transactions.transactions?.map((transaction: any) => (
         <Table.Tr
           key={transaction._id}
           onClick={() => setSelectedTransactionId(transaction.transactionId)}
@@ -407,7 +421,7 @@ export function TransactionInventory({ filters, searchTerm }: TransactionInvento
       </Flex>
       <Flex justify="center" align="center">
         <Pagination
-          total={data?.metadata?.totalPages || 0}
+          total={transactions?.metadata?.totalPages || 0}
           value={page}
           onChange={setPage}
           size="md"

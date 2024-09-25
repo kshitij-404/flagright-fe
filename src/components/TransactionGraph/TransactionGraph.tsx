@@ -1,9 +1,10 @@
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
+import { AxiosResponse } from 'axios';
 import useSWR from 'swr';
 import { AreaChart } from '@mantine/charts';
 import { Flex, Paper, Text, Title } from '@mantine/core';
-import { BASE_URL } from '@/utils/constants';
+import { swrFetcher } from '@/utils/swr';
 
 interface TransactionData {
   date: string;
@@ -18,14 +19,14 @@ interface GraphDataResponse {
 
 export function TransactionGraph() {
   const [data, setData] = useState<TransactionData[]>([]);
-  const { data: graphDataResponse } = useSWR<GraphDataResponse>(
-    `${BASE_URL}/transaction/graph-data`,
-    (url: string) => fetch(url).then((res) => res.json())
+  const { data: graphDataResponse } = useSWR<AxiosResponse<GraphDataResponse>>(
+    [`transaction/graph-data`, 'get'],
+    swrFetcher
   );
 
   useEffect(() => {
-    if (graphDataResponse) {
-      const formattedData = graphDataResponse.graphData.map((transaction) => ({
+    if (graphDataResponse?.data) {
+      const formattedData = graphDataResponse.data.graphData.map((transaction) => ({
         date: dayjs(transaction.timestamp).format('MM/DD/YYYY HH:mm'),
         amount: transaction.amount,
       }));
@@ -56,8 +57,8 @@ export function TransactionGraph() {
           // yAxisLabel="Amount (USD)"
           yAxisProps={{
             domain: [
-              Math.round(graphDataResponse?.minAmount as any),
-              Math.round(graphDataResponse?.maxAmount as any),
+              Math.round(graphDataResponse?.data?.minAmount as any),
+              Math.round(graphDataResponse?.data?.maxAmount as any),
             ],
           }}
           valueFormatter={(value) =>
