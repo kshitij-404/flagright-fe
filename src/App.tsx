@@ -12,7 +12,7 @@ import './App.css';
 export default function App() {
   return (
     <MantineProvider theme={theme}>
-      <Notifications />̉
+      <Notifications />
       <Router />
     </MantineProvider>
   );
