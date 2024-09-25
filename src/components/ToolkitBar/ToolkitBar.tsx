@@ -6,6 +6,7 @@ import {
   IconTransactionDollar,
 } from '@tabler/icons-react';
 import { ActionIcon, Button, Flex, TextInput, useMantineTheme } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 import { apiFetcher } from '@/utils/axios';
 import { BASE_URL } from '@/utils/constants';
 
@@ -86,20 +87,13 @@ export function ToolkitBar({ onSearch, filters }: ToolkitBarProps) {
     );
     try {
       const queryParams = new URLSearchParams(filteredFilters as any).toString();
-      const response = await apiFetcher.get(`${BASE_URL}/transaction/report?${queryParams}`, {
-        responseType: 'blob',
-        headers: {
-          'Content-Type': 'application/pdf',
-        },
-      });
+      const response = await apiFetcher.get(`transaction/report?${queryParams}`);
 
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'transaction_report.pdf';
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
+      const message = response.data.message;
+      notifications.show({
+        title: 'Report Generation in Progress',
+        message,
+      });
     } catch (error) {
       console.error('Error downloading PDF', error);
     }
