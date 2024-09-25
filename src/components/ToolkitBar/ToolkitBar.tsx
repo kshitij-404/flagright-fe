@@ -17,6 +17,8 @@ interface ToolkitBarProps {
 
 export function ToolkitBar({ onSearch, filters }: ToolkitBarProps) {
   const [searchQuery, setSearchQuery] = useState('');
+  const theme = useMantineTheme();
+  const colors = theme.colors;
   const [isGeneratorRunning, setIsGeneratorRunning] = useState(false);
 
   useEffect(() => {
@@ -25,8 +27,6 @@ export function ToolkitBar({ onSearch, filters }: ToolkitBarProps) {
       setIsGeneratorRunning(JSON.parse(generatorStatus));
     }
   }, []);
-  const theme = useMantineTheme();
-  const colors = theme.colors;
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
@@ -34,12 +34,6 @@ export function ToolkitBar({ onSearch, filters }: ToolkitBarProps) {
 
   const handleSearch = () => {
     onSearch(searchQuery);
-  };
-
-  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      handleSearch();
-    }
   };
 
   const toggleTransactionGenerator = async () => {
@@ -153,7 +147,23 @@ export function ToolkitBar({ onSearch, filters }: ToolkitBarProps) {
       </Flex>
 
       <Flex gap={16}>
-        <Button size="compact-sm" color="blue.5" radius={14} leftSection={<IconReport size={16} />}>
+        <Button
+          size="compact-sm"
+          color="blue.5"
+          radius={14}
+          leftSection={<IconTransactionDollar size={16} />}
+          onClick={toggleTransactionGenerator}
+        >
+          {isGeneratorRunning ? 'Stop' : 'Generate Transactions'}
+        </Button>
+
+        <Button
+          size="compact-sm"
+          color="blue.5"
+          radius={14}
+          leftSection={<IconReport size={16} />}
+          onClick={downloadPDF}
+        >
           Generate Report
         </Button>
 
@@ -161,16 +171,8 @@ export function ToolkitBar({ onSearch, filters }: ToolkitBarProps) {
           size="compact-sm"
           color="blue.5"
           radius={14}
-          leftSection={<IconTransactionDollar size={16} />}
-        >
-          Generate Transactions
-        </Button>
-
-        <Button
-          size="compact-sm"
-          color="blue.5"
-          radius={14}
           leftSection={<IconFileTypeCsv size={16} />}
+          onClick={downloadCSV}
         >
           Download CSV
         </Button>
