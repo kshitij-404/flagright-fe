@@ -296,7 +296,7 @@ export function TransactionInventory({ filters, searchTerm }: TransactionInvento
                 </Button>
               </Table.Th>
               <Table.Th style={{ textAlign: 'center' }}>
-                Txn ID
+                {/* Txn ID
                 <ActionIcon
                   variant="subtle"
                   color="black"
@@ -310,10 +310,29 @@ export function TransactionInventory({ filters, searchTerm }: TransactionInvento
                   ) : (
                     <IconSortDescending size={16} />
                   )}
-                </ActionIcon>
+                </ActionIcon> */}
+                <Button
+                  size="compact-sm"
+                  variant="subtle"
+                  c="dark"
+                  rightSection={
+                    sortBy === 'transactionId' ? (
+                      sortOrder === 'asc' ? (
+                        <IconSortAscending size={16} stroke={1.5} />
+                      ) : (
+                        <IconSortDescending size={16} stroke={1.5} />
+                      )
+                    ) : (
+                      <IconArrowsMoveVertical size={16} stroke={1.5} />
+                    )
+                  }
+                  onClick={() => handleSort('transactionId')}
+                >
+                  Txn ID
+                </Button>
               </Table.Th>
               <Table.Th style={{ textAlign: 'center' }}>
-                Time
+                {/* Time
                 <ActionIcon
                   variant="subtle"
                   color="black"
@@ -327,10 +346,29 @@ export function TransactionInventory({ filters, searchTerm }: TransactionInvento
                   ) : (
                     <IconSortDescending size={16} />
                   )}
-                </ActionIcon>
+                </ActionIcon> */}
+                <Button
+                  size="compact-sm"
+                  variant="subtle"
+                  c="dark"
+                  rightSection={
+                    sortBy === 'timestamp' ? (
+                      sortOrder === 'asc' ? (
+                        <IconSortAscending size={16} stroke={1.5} />
+                      ) : (
+                        <IconSortDescending size={16} stroke={1.5} />
+                      )
+                    ) : (
+                      <IconArrowsMoveVertical size={16} stroke={1.5} />
+                    )
+                  }
+                  onClick={() => handleSort('timestamp')}
+                >
+                  Time
+                </Button>
               </Table.Th>
               <Table.Th style={{ textAlign: 'center' }}>
-                Sender ID
+                {/* Sender ID
                 <ActionIcon
                   variant="subtle"
                   color="black"
@@ -344,10 +382,29 @@ export function TransactionInventory({ filters, searchTerm }: TransactionInvento
                   ) : (
                     <IconSortDescending size={16} />
                   )}
-                </ActionIcon>
+                </ActionIcon> */}
+                <Button
+                  size="compact-sm"
+                  variant="subtle"
+                  c="dark"
+                  rightSection={
+                    sortBy === 'originUserId' ? (
+                      sortOrder === 'asc' ? (
+                        <IconSortAscending size={16} stroke={1.5} />
+                      ) : (
+                        <IconSortDescending size={16} stroke={1.5} />
+                      )
+                    ) : (
+                      <IconArrowsMoveVertical size={16} stroke={1.5} />
+                    )
+                  }
+                  onClick={() => handleSort('originUserId')}
+                >
+                  Sender ID
+                </Button>
               </Table.Th>
               <Table.Th style={{ textAlign: 'center' }}>
-                Receiver ID
+                {/* Receiver ID
                 <ActionIcon
                   variant="subtle"
                   color="black"
@@ -361,10 +418,29 @@ export function TransactionInventory({ filters, searchTerm }: TransactionInvento
                   ) : (
                     <IconSortDescending size={16} />
                   )}
-                </ActionIcon>
+                </ActionIcon> */}
+                <Button
+                  size="compact-sm"
+                  variant="subtle"
+                  c="dark"
+                  rightSection={
+                    sortBy === 'destinationUserId' ? (
+                      sortOrder === 'asc' ? (
+                        <IconSortAscending size={16} stroke={1.5} />
+                      ) : (
+                        <IconSortDescending size={16} stroke={1.5} />
+                      )
+                    ) : (
+                      <IconArrowsMoveVertical size={16} stroke={1.5} />
+                    )
+                  }
+                  onClick={() => handleSort('destinationUserId')}
+                >
+                  Receiver ID
+                </Button>
               </Table.Th>
               <Table.Th style={{ textAlign: 'center' }}>
-                State
+                {/* State
                 <ActionIcon
                   variant="subtle"
                   color="black"
@@ -378,10 +454,29 @@ export function TransactionInventory({ filters, searchTerm }: TransactionInvento
                   ) : (
                     <IconSortDescending size={16} />
                   )}
-                </ActionIcon>
+                </ActionIcon> */}
+                <Button
+                  size="compact-sm"
+                  variant="subtle"
+                  c="dark"
+                  rightSection={
+                    sortBy === 'transactionState' ? (
+                      sortOrder === 'asc' ? (
+                        <IconSortAscending size={16} stroke={1.5} />
+                      ) : (
+                        <IconSortDescending size={16} stroke={1.5} />
+                      )
+                    ) : (
+                      <IconArrowsMoveVertical size={16} stroke={1.5} />
+                    )
+                  }
+                  onClick={() => handleSort('transactionState')}
+                >
+                  State
+                </Button>
               </Table.Th>
               <Table.Th style={{ textAlign: 'center' }}>
-                Amount
+                {/* Amount
                 <ActionIcon
                   variant="subtle"
                   color="black"
@@ -395,10 +490,29 @@ export function TransactionInventory({ filters, searchTerm }: TransactionInvento
                   ) : (
                     <IconSortDescending size={16} />
                   )}
-                </ActionIcon>
+                </ActionIcon> */}
+                <Button
+                  size="compact-sm"
+                  variant="subtle"
+                  c="dark"
+                  rightSection={
+                    sortBy === 'originAmountDetails.transactionAmount' ? (
+                      sortOrder === 'asc' ? (
+                        <IconSortAscending size={16} stroke={1.5} />
+                      ) : (
+                        <IconSortDescending size={16} stroke={1.5} />
+                      )
+                    ) : (
+                      <IconArrowsMoveVertical size={16} stroke={1.5} />
+                    )
+                  }
+                  onClick={() => handleSort('originAmountDetails.transactionAmount')}
+                >
+                  Amount
+                </Button>
               </Table.Th>
               <Table.Th style={{ textAlign: 'center' }}>
-                Tags
+                {/* Tags
                 <ActionIcon
                   variant="subtle"
                   color="black"
@@ -412,7 +526,26 @@ export function TransactionInventory({ filters, searchTerm }: TransactionInvento
                   ) : (
                     <IconSortDescending size={16} />
                   )}
-                </ActionIcon>
+                </ActionIcon> */}
+                <Button
+                  size="compact-sm"
+                  variant="subtle"
+                  c="dark"
+                  rightSection={
+                    sortBy === 'tags' ? (
+                      sortOrder === 'asc' ? (
+                        <IconSortAscending size={16} stroke={1.5} />
+                      ) : (
+                        <IconSortDescending size={16} stroke={1.5} />
+                      )
+                    ) : (
+                      <IconArrowsMoveVertical size={16} stroke={1.5} />
+                    )
+                  }
+                  onClick={() => handleSort('tags')}
+                >
+                  Tags
+                </Button>
               </Table.Th>
             </Table.Tr>
           </Table.Thead>

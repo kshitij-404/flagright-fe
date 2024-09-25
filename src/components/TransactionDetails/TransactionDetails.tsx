@@ -174,7 +174,7 @@ export function TransactionDetailsDrawer({
         onClose();
       }}
       title={
-        <Flex gap={12} align="center">
+        <Flex gap={12} align="center" p={10}>
           <Title order={3} fz={20}>
             Transaction Details
           </Title>
@@ -199,6 +199,7 @@ export function TransactionDetailsDrawer({
       position="right"
       size={500}
       offset={10}
+      radius={16}
     >
       {error ? (
         <Text size="sm" ta="right">
@@ -211,7 +212,7 @@ export function TransactionDetailsDrawer({
           <Skeleton radius={20} w="100%" h={100} />
         </Flex>
       ) : (
-        <Flex gap={20} direction="column" pb={32}>
+        <Flex gap={20} direction="column" pb={32} p={10} pt={0}>
           <Paper p={14} radius={20} bg="gray.0">
             <Flex justify="space-between" align="center">
               <Flex className="font-mono" align="center" gap={10}>

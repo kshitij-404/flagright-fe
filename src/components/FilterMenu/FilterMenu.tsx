@@ -124,6 +124,7 @@ export function FilterMenu({ onApplyFilters }: { onApplyFilters: (filters: any) 
                 placeholder="Select types"
                 variant="filled"
                 label="Type"
+                searchable
               />
             </Flex>
 
@@ -138,6 +139,7 @@ export function FilterMenu({ onApplyFilters }: { onApplyFilters: (filters: any) 
                 placeholder="Select states"
                 variant="filled"
                 label="State"
+                searchable
               />
             </Flex>
 
@@ -152,6 +154,7 @@ export function FilterMenu({ onApplyFilters }: { onApplyFilters: (filters: any) 
                 placeholder="Select tags"
                 variant="filled"
                 label="Tags"
+                searchable
               />
             </Flex>
 
@@ -166,6 +169,7 @@ export function FilterMenu({ onApplyFilters }: { onApplyFilters: (filters: any) 
                 placeholder="Select user"
                 variant="filled"
                 label="Sender"
+                searchable
               />
             </Flex>
 
@@ -180,6 +184,7 @@ export function FilterMenu({ onApplyFilters }: { onApplyFilters: (filters: any) 
                 placeholder="Select user"
                 variant="filled"
                 label="Receiver"
+                searchable
               />
             </Flex>
 
@@ -264,6 +269,7 @@ export function FilterMenu({ onApplyFilters }: { onApplyFilters: (filters: any) 
                 placeholder="Select Currency"
                 variant="filled"
                 label="Currency"
+                searchable
               />
             </Flex>
 

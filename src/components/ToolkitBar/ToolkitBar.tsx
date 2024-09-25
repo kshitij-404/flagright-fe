@@ -156,6 +156,7 @@ export function ToolkitBar({ onSearch, filters }: ToolkitBarProps) {
         <Button size="compact-sm" color="blue.5" radius={14} leftSection={<IconReport size={16} />}>
           Generate Report
         </Button>
+
         <Button
           size="compact-sm"
           color="blue.5"
@@ -164,6 +165,7 @@ export function ToolkitBar({ onSearch, filters }: ToolkitBarProps) {
         >
           Generate Transactions
         </Button>
+
         <Button
           size="compact-sm"
           color="blue.5"
