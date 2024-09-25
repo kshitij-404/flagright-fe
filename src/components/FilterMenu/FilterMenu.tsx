@@ -11,6 +11,7 @@ import {
   Paper,
   Popover,
   RangeSlider,
+  ScrollArea,
   Text,
   TextInput,
   Title,
@@ -92,207 +93,215 @@ export function FilterMenu({ onApplyFilters }: { onApplyFilters: (filters: any) 
   return (
     <Paper
       radius={0}
-      h="100vh"
+      // h="100vh"
       bg="white"
       // style={{ backgroundColor: 'white', width: '100%', height: '100vh' }}
       // p={28}
       // pt={40}
     >
-      <Flex direction="column" align="center" p={28} pt={40} gap={28} h="100%">
-        <Flex align="flex-start" style={{ width: '100%' }}>
-          <Title order={3}>Filters</Title>
-        </Flex>
+      <ScrollArea h="100vh" type="hover" scrollbarSize={6} scrollHideDelay={100}>
+        <Flex direction="column" align="center" p={28} pt={40} gap={20} h="100%">
+          <Flex align="flex-start" style={{ width: '100%' }}>
+            <Title order={3}>Filters</Title>
+          </Flex>
 
-        <Flex direction="column" gap={20} w={240}>
-          <Flex direction="column" gap={10}>
-            <Text fw={500} size="sm" c="dark.4">
+          <Flex direction="column" gap={20} w={240}>
+            <Flex direction="column" gap={10}>
+              {/* <Text fw={500} size="sm" c="dark.4">
               Description
-            </Text>
-            <TextInput
-              value={description}
-              onChange={(event) => setDescription(event.currentTarget.value)}
-              placeholder="Enter description"
-              variant="filled"
-            />
-          </Flex>
-
-          <Flex direction="column" gap={10}>
-            <Text fw={500} size="sm" c="dark.4">
+            </Text> */}
+              <TextInput
+                value={description}
+                onChange={(event) => setDescription(event.currentTarget.value)}
+                placeholder="Enter description"
+                variant="filled"
+                label="Description"
+              />
+            </Flex>
+            <Flex direction="column" gap={10}>
+              {/* <Text fw={500} size="sm" c="dark.4">
               Type
-            </Text>
-            <MultiSelect
-              value={types}
-              onChange={setTypes}
-              data={transactionTypes}
-              placeholder="Select types"
-              variant="filled"
-            />
-          </Flex>
+            </Text> */}
+              <MultiSelect
+                value={types}
+                onChange={setTypes}
+                data={transactionTypes}
+                placeholder="Select types"
+                variant="filled"
+                label="Type"
+              />
+            </Flex>
 
-          <Flex direction="column" gap={10}>
-            <Text fw={500} size="sm" c="dark.4">
+            <Flex direction="column" gap={10}>
+              {/* <Text fw={500} size="sm" c="dark.4">
               State
-            </Text>
-            <MultiSelect
-              value={states}
-              onChange={setStates}
-              data={transactionStates}
-              placeholder="Select states"
-              variant="filled"
-            />
-          </Flex>
+            </Text> */}
+              <MultiSelect
+                value={states}
+                onChange={setStates}
+                data={transactionStates}
+                placeholder="Select states"
+                variant="filled"
+                label="State"
+              />
+            </Flex>
 
-          <Flex direction="column" gap={10}>
-            <Text fw={500} size="sm" c="dark.4">
+            <Flex direction="column" gap={10}>
+              {/* <Text fw={500} size="sm" c="dark.4">
               Tags
-            </Text>
-            <MultiSelect
-              value={tags}
-              onChange={setTags}
-              data={tagOptions?.map((tag: string) => ({ value: tag, label: tag })) || []}
-              placeholder="Select tags"
-              variant="filled"
-            />
-          </Flex>
+            </Text> */}
+              <MultiSelect
+                value={tags}
+                onChange={setTags}
+                data={tagOptions?.map((tag: string) => ({ value: tag, label: tag })) || []}
+                placeholder="Select tags"
+                variant="filled"
+                label="Tags"
+              />
+            </Flex>
 
-          <Flex direction="column" gap={10}>
-            <Text fw={500} size="sm" c="dark.4">
+            <Flex direction="column" gap={10}>
+              {/* <Text fw={500} size="sm" c="dark.4">
               Sender
-            </Text>
-            <MultiSelect
-              value={originUserIds}
-              onChange={setOriginUserIds}
-              data={userList?.map((user: string) => ({ value: user, label: user })) || []}
-              placeholder="Select user"
-              variant="filled"
-            />
-          </Flex>
+            </Text> */}
+              <MultiSelect
+                value={originUserIds}
+                onChange={setOriginUserIds}
+                data={userList?.map((user: string) => ({ value: user, label: user })) || []}
+                placeholder="Select user"
+                variant="filled"
+                label="Sender"
+              />
+            </Flex>
 
-          <Flex direction="column" gap={10}>
-            <Text fw={500} size="sm" c="dark.4">
+            <Flex direction="column" gap={10}>
+              {/* <Text fw={500} size="sm" c="dark.4">
               Receiver
-            </Text>
-            <MultiSelect
-              value={destinationUserIds}
-              onChange={setDestinationUserIds}
-              data={userList?.map((user: string) => ({ value: user, label: user })) || []}
-              placeholder="Select user"
-              variant="filled"
-            />
-          </Flex>
+            </Text> */}
+              <MultiSelect
+                value={destinationUserIds}
+                onChange={setDestinationUserIds}
+                data={userList?.map((user: string) => ({ value: user, label: user })) || []}
+                placeholder="Select user"
+                variant="filled"
+                label="Receiver"
+              />
+            </Flex>
 
-          <Flex direction="column" gap={10}>
-            <Text fw={500} size="sm" c="dark.4">
-              Date
-            </Text>
+            <Flex direction="column" gap={2}>
+              <Text fw={500} size="sm" c="dark.4">
+                Date
+              </Text>
 
-            <Paper bg="gray.1" radius={12}>
-              <Flex direction="column" gap={10} py={10}>
-                <Flex px={12} justify="space-between" align="center" w="100%">
-                  <Text size="sm" c="dark.2">
-                    Start
-                  </Text>
-                  <Group>
-                    <Text c="dark.4" fw={500} size="sm">
-                      {startDate ? startDate.toLocaleDateString() : 'Not selected'}
+              <Paper bg="gray.1" radius={12}>
+                <Flex direction="column" gap={10} py={10}>
+                  <Flex px={12} justify="space-between" align="center" w="100%">
+                    <Text size="sm" c="dark.2">
+                      Start
                     </Text>
-                    <Popover
-                      opened={startDatePickerOpened}
-                      onChange={setStartDatePickerOpened}
-                      position="bottom"
-                      withArrow
-                    >
-                      <Popover.Target>
-                        <ActionIcon
-                          variant="filled"
-                          onClick={() => setStartDatePickerOpened((o) => !o)}
-                        >
-                          <IconCalendar size={16} />
-                        </ActionIcon>
-                      </Popover.Target>
-                      <Popover.Dropdown>
-                        <DatePicker value={startDate} onChange={setStartDate} />
-                      </Popover.Dropdown>
-                    </Popover>
-                  </Group>
-                </Flex>
+                    <Group>
+                      <Text c="dark.4" fw={500} size="sm">
+                        {startDate ? startDate.toLocaleDateString() : 'Not selected'}
+                      </Text>
+                      <Popover
+                        opened={startDatePickerOpened}
+                        onChange={setStartDatePickerOpened}
+                        position="bottom"
+                        withArrow
+                      >
+                        <Popover.Target>
+                          <ActionIcon
+                            variant="filled"
+                            onClick={() => setStartDatePickerOpened((o) => !o)}
+                          >
+                            <IconCalendar size={16} />
+                          </ActionIcon>
+                        </Popover.Target>
+                        <Popover.Dropdown>
+                          <DatePicker value={startDate} onChange={setStartDate} />
+                        </Popover.Dropdown>
+                      </Popover>
+                    </Group>
+                  </Flex>
 
-                <Divider size="xs" />
+                  <Divider size="xs" />
 
-                <Flex px={12} justify="space-between" align="center" w="100%">
-                  <Text size="sm" c="dark.2">
-                    End
-                  </Text>
-                  <Group>
-                    <Text c="dark.4" fw={500} size="sm">
-                      {endDate ? endDate.toLocaleDateString() : 'Not selected'}
+                  <Flex px={12} justify="space-between" align="center" w="100%">
+                    <Text size="sm" c="dark.2">
+                      End
                     </Text>
-                    <Popover
-                      opened={endDatePickerOpened}
-                      onChange={setEndDatePickerOpened}
-                      position="bottom"
-                      withArrow
-                    >
-                      <Popover.Target>
-                        <ActionIcon
-                          variant="filled"
-                          onClick={() => setEndDatePickerOpened((o) => !o)}
-                        >
-                          <IconCalendar size={16} />
-                        </ActionIcon>
-                      </Popover.Target>
-                      <Popover.Dropdown>
-                        <DatePicker value={endDate} onChange={setEndDate} />
-                      </Popover.Dropdown>
-                    </Popover>
-                  </Group>
+                    <Group>
+                      <Text c="dark.4" fw={500} size="sm">
+                        {endDate ? endDate.toLocaleDateString() : 'Not selected'}
+                      </Text>
+                      <Popover
+                        opened={endDatePickerOpened}
+                        onChange={setEndDatePickerOpened}
+                        position="bottom"
+                        withArrow
+                      >
+                        <Popover.Target>
+                          <ActionIcon
+                            variant="filled"
+                            onClick={() => setEndDatePickerOpened((o) => !o)}
+                          >
+                            <IconCalendar size={16} />
+                          </ActionIcon>
+                        </Popover.Target>
+                        <Popover.Dropdown>
+                          <DatePicker value={endDate} onChange={setEndDate} />
+                        </Popover.Dropdown>
+                      </Popover>
+                    </Group>
+                  </Flex>
                 </Flex>
-              </Flex>
-            </Paper>
-          </Flex>
+              </Paper>
+            </Flex>
 
-          <Flex direction="column" gap={10}>
-            <Text fw={500} size="sm" c="dark.4">
+            <Flex direction="column" gap={10}>
+              {/* <Text fw={500} size="sm" c="dark.4">
               Currency
-            </Text>
-            <MultiSelect
-              value={currencies}
-              onChange={setCurrencies}
-              data={currencyOptions}
-              placeholder="Select Currency"
-              variant="filled"
-            />
+            </Text> */}
+              <MultiSelect
+                value={currencies}
+                onChange={setCurrencies}
+                data={currencyOptions}
+                placeholder="Select Currency"
+                variant="filled"
+                label="Currency"
+              />
+            </Flex>
+
+            <Flex direction="column" gap={10}>
+              <Text fw={500} size="sm" c="dark.4">
+                Price Range
+              </Text>
+
+              <RangeSlider
+                value={amountRange}
+                onChange={setAmountRange}
+                min={Math.round(amountRangeData?.minAmount || 0)}
+                max={Math.round(amountRangeData?.maxAmount || 1000)}
+                marks={sliderMarks}
+                labelTransitionProps={{
+                  transition: 'pop',
+                  duration: 80,
+                  timingFunction: 'linear',
+                }}
+              />
+            </Flex>
           </Flex>
 
-          <Flex direction="column" gap={10}>
-            <Text fw={500} size="sm" c="dark.4">
-              Price Range
-            </Text>
-
-            <RangeSlider
-              value={amountRange}
-              onChange={setAmountRange}
-              min={Math.round(amountRangeData?.minAmount || 0)}
-              max={Math.round(amountRangeData?.maxAmount || 1000)}
-              marks={sliderMarks}
-              labelTransitionProps={{
-                transition: 'pop',
-                duration: 80,
-                timingFunction: 'linear',
-              }}
-            />
+          <Flex justify="space-between" mt={32} gap={10} w="100%">
+            <Button w="100%" onClick={handleApplyFilters}>
+              Apply
+            </Button>
+            <Button w="100%" variant="outline" onClick={handleClearFilters}>
+              Clear
+            </Button>
           </Flex>
         </Flex>
-
-        <Flex justify="space-between" mt="auto" gap={10} w="100%">
-          <Button w="100%" onClick={handleApplyFilters}>
-            Apply
-          </Button>
-          <Button w="100%" variant="outline" onClick={handleClearFilters}>
-            Clear
-          </Button>
-        </Flex>
-      </Flex>
+      </ScrollArea>
     </Paper>
   );
 }
