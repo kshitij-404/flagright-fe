@@ -7,7 +7,7 @@ Deployed Link: https://flagright-fe.vercel.app
 
 Server URL (for testing APIs): https://flagrightbe-gmgagzcuf8cdbpdy.centralindia-01.azurewebsites.net
 
-Video Demonstration Link: 
+Video Demonstration Link: https://youtu.be/oGZboEHf7NA
 
 Backend Repository Link: https://github.com/kshitij-404/flagright-assignment
 
