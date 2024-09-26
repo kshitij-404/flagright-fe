@@ -1,34 +1,104 @@
-# Mantine Vite template
 
-## Features
+# Flagright Assignment - Frontend
 
-This template comes with the following features:
+This is the frontend repository for the Flagright hiring assignment.
 
-- [PostCSS](https://postcss.org/) with [mantine-postcss-preset](https://mantine.dev/styles/postcss-preset)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Storybook](https://storybook.js.org/)
-- [Vitest](https://vitest.dev/) setup with [React Testing Library](https://testing-library.com/docs/react-testing-library/intro)
-- ESLint setup with [eslint-config-mantine](https://github.com/mantinedev/eslint-config-mantine)
+Deployed Link: https://flagright-fe.vercel.app
 
-## npm scripts
+Server URL (for testing APIs): https://flagrightbe-gmgagzcuf8cdbpdy.centralindia-01.azurewebsites.net
 
-## Build and dev scripts
+Video Demonstration Link: 
 
-- `dev` – start development server
-- `build` – build production version of the app
-- `preview` – locally preview production build
+Backend Repository Link: https://github.com/kshitij-404/flagright-assignment
 
-### Testing scripts
 
-- `typecheck` – checks TypeScript types
-- `lint` – runs ESLint
-- `prettier:check` – checks files with Prettier
-- `vitest` – runs vitest tests
-- `vitest:watch` – starts vitest watch
-- `test` – runs `vitest`, `prettier:check`, `lint` and `typecheck` scripts
 
-### Other scripts
 
-- `storybook` – starts storybook dev server
-- `storybook:build` – build production storybook bundle to `storybook-static`
-- `prettier:write` – formats all files with Prettier
+## Tech Stack
+
+**Client:** React, Mantine, TypeScript, Bun
+
+**Server:** Bun, Express, MongoDB, TypeScript
+
+
+## Run Locally
+
+Clone the project
+
+```bash
+  git clone https://github.com/kshitij-404/flagright-fe.git
+```
+
+Go to the project directory
+
+```bash
+  cd flagright-fe
+```
+
+Install dependencies
+
+```bash
+  bun install
+```
+
+Create a .env file 
+
+```bash
+  touch .env
+```
+
+Use the .env.example file to populate the backend URL in .env file (replace with your backend URL or Live Server URL: https://flagrightbe-gmgagzcuf8cdbpdy.centralindia-01.azurewebsites.net)
+
+```bash
+  VITE_BASE_URL=http://localhost:3000 
+```
+
+Start the server
+
+```bash
+  bun run dev
+```
+
+Or to build and run
+
+```bash
+  bun run build
+  bun run preview --host
+```
+
+### Using Docker
+
+Clone the project
+
+```bash
+  git clone https://github.com/kshitij-404/flagright-fe.git
+```
+
+Go to the project directory
+
+```bash
+  cd flagright-fe
+```
+
+Create a .env file 
+
+```bash
+  touch .env
+```
+
+Use the .env.example file to populate the backend URL in .env file (replace with your backend URL or Live Server URL: https://flagrightbe-gmgagzcuf8cdbpdy.centralindia-01.azurewebsites.net)
+
+```bash
+  VITE_BASE_URL=http://localhost:3000 
+```
+
+Build Docker Image
+
+```bash
+  docker build -t flagright-frontend .
+```
+
+Run Docker Image
+```bash
+  docker run -p 5173:5173 flagright-frontend
+```
