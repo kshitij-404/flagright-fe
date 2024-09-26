@@ -47,7 +47,7 @@ Create a .env file
   touch .env
 ```
 
-Use the .env.example file to populate the backend URL in .env file (replace with your backend URL or Live Server URL: https://flagrightbe-gmgagzcuf8cdbpdy.centralindia-01.azurewebsites.net)
+Use the .env.example file to populate the backend URL in .env file (replace with your backend URL or Live Server URL: https://apiv2.flagright.kshitij-ayush.tech)
 
 ```bash
   VITE_BASE_URL=http://localhost:3000 
@@ -86,7 +86,7 @@ Create a .env file
   touch .env
 ```
 
-Use the .env.example file to populate the backend URL in .env file (replace with your backend URL or Live Server URL: https://flagrightbe-gmgagzcuf8cdbpdy.centralindia-01.azurewebsites.net)
+Use the .env.example file to populate the backend URL in .env file (replace with your backend URL or Live Server URL: https://apiv2.flagright.kshitij-ayush.tech)
 
 ```bash
   VITE_BASE_URL=http://localhost:3000 
