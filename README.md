@@ -3,9 +3,9 @@
 
 This is the frontend repository for the Flagright hiring assignment.
 
-Deployed Link: https://flagright-fe.vercel.app
+Deployed Link: https://flagright.kshitij-ayush.tech/
 
-Server URL (for testing APIs): https://flagrightbe-gmgagzcuf8cdbpdy.centralindia-01.azurewebsites.net
+Server URL (for testing APIs): https://apiv2.flagright.kshitij-ayush.tech
 
 Video Demonstration Link: https://youtu.be/oGZboEHf7NA
 
